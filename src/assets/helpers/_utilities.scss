@@ -442,7 +442,11 @@ $utilities: map-merge(
     "font-family": (
       property: font-family,
       class: font,
-      values: (monospace: var(--#{$variable-prefix}font-monospace))
+      values: (
+        monospace: var(--#{$variable-prefix}font-monospace),
+        azeret: 'Azeret Mono',
+        paytone: 'Paytone One',
+      )
     ),
     "font-size": (
       rfs: true,

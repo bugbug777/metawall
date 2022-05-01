@@ -1,53 +1,52 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Dropdown
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+  <nav class="border-bottom border-3 border-dark">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <h1><a href="#" class="font-paytone fs-26 text-dark">MetaWall</a></h1>
+        <div class="dropdown">
+          <button
+            id="dLabel"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            class="d-flex align-items-center"
+            data-bs-offset="0,11.25"
+          >
+            <img class="avatar me-2" src="@/assets/images/user.png" alt="gonsakon" />
+            <span class="font-azeret fw-bold border-bottom border-2 border-dark">Member</span>
+          </button>
+          <ul
+            class="dropdown-menu box
+            rounded-0 border-2 border-dark text-center p-0"
+            aria-labelledby="dLabel"
+          >
+            <li class="border-bottom border-2 border-dark bg-white hover-gray py-2">我的貼文牆</li>
+            <li class="border-bottom border-2 border-dark bg-white hover-gray py-2">修改個人資料</li>
+            <li class="bg-white hover-gray py-2">登出</li>
+          </ul>
+        </div>
       </div>
     </div>
   </nav>
 </template>
+
+<style lang="scss" scoped>
+.avatar {
+  width: 30px;
+  height: 30px;
+}
+.hover-gray:hover {
+  background-color: #efece7 !important;
+}
+.box::before {
+  position: absolute;
+  display: block;
+  content: '';
+  top: 8px;
+  right: -8px;
+  bottom: -8px;
+  left: 8px;
+  border: 2px solid #000400;
+  z-index: -1;
+}
+</style>
