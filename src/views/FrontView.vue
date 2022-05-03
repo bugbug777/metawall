@@ -1,11 +1,11 @@
 <template>
   <Navbar />
   <div class="container pt-12">
-    <div class="row justify-content-between">
-      <div class="col">
+    <div class="d-flex justify-content-between">
+      <div style="width: 61.3%;">
         <Searchbar />
       </div>
-      <div class="col"></div>
+      <div style="width: 35.5%;"></div>
     </div>
   </div>
 </template>
