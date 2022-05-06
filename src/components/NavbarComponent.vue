@@ -16,13 +16,16 @@
             <span class="font-azeret fw-bold border-bottom border-2 border-dark">Member</span>
           </button>
           <ul
-            class="dropdown-menu box
-            rounded-0 border-2 border-dark text-center p-0"
+            class="dropdown-menu box rounded-0 text-center p-0"
             aria-labelledby="dLabel"
           >
-            <li class="border-bottom border-2 border-dark bg-white hover-gray py-2">我的貼文牆</li>
-            <li class="border-bottom border-2 border-dark bg-white hover-gray py-2">修改個人資料</li>
-            <li class="bg-white hover-gray py-2">登出</li>
+            <li class="border border-bottom-0 border-2 border-dark bg-white hover-gray py-2">
+              我的貼文牆
+            </li>
+            <li class="border border-bottom-0 border-2 border-dark bg-white hover-gray py-2">
+              修改個人資料
+            </li>
+            <li class="border border-2 border-dark bg-white hover-gray py-2">登出</li>
           </ul>
         </div>
       </div>
@@ -47,6 +50,7 @@
   bottom: -8px;
   left: 8px;
   border: 2px solid #000400;
+  background-color: #fff;
   z-index: -1;
 }
 </style>
