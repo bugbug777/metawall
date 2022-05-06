@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-2 border-dark px-6 py-8">
+  <div class="border border-2 border-dark bg-white px-6 py-8">
     <a
       href="#"
       class="btn btn-primary hover-effect-btn rounded-4 border border-2 border-dark
