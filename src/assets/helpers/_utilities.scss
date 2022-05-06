@@ -60,6 +60,7 @@ $utilities: map-merge(
         null: $box-shadow,
         sm: $box-shadow-sm,
         lg: $box-shadow-lg,
+        card: 0px 3px 0px #000400,
         none: none,
       )
     ),
@@ -594,6 +595,7 @@ $utilities: map-merge(
         1: $border-radius-sm,
         2: $border-radius,
         3: $border-radius-lg,
+        4: 8px,
         circle: 50%,
         pill: $border-radius-pill
       )
