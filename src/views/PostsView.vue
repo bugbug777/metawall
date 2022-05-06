@@ -7,7 +7,7 @@
           <img src="@/assets/images/user.png" alt="avatar" class="avatar rounded-circle me-4" />
           <div class="d-flex flex-column justify-content-center">
             <h2 class="fs-6">{{ post.user.name }}</h2>
-            <p class="fs-12 text-secondary">{{ post.createdAt }}</p>
+            <p class="fs-12 text-secondary">{{ timeFormatter(post.createdAt) }}</p>
           </div>
         </div>
         <p class="mb-4">{{ post.content }}</p>
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import dayjs from 'dayjs';
 import Searchbar from '@/components/SearchBar.vue';
 
 export default {
@@ -39,6 +40,9 @@ export default {
           this.posts = res.data.data;
         }
       });
+    },
+    timeFormatter(d) {
+      return dayjs(d).format('YYYY/M/DD HH:mm');
     },
   },
   mounted() {
