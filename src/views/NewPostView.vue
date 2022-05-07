@@ -1,0 +1,3 @@
+<template>
+  <h1>新增貼文</h1>
+</template>

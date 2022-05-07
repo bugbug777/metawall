@@ -1,10 +1,10 @@
 <template>
   <div class="border border-2 border-dark bg-white px-6 py-8">
-    <a
-      href="#"
+    <router-link
+      to="/newpost"
       class="btn btn-primary hover-effect-btn rounded-4 border border-2 border-dark
       shadow-btn w-100 py-4 mb-6"
-      >張貼動態</a
+      >張貼動態</router-link
     >
     <ul>
       <li class="mb-4">
