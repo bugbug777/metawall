@@ -6,10 +6,11 @@
   </div>
   <div class="card border-2 border-dark">
     <div class="card-body p-8">
-      <form action="">
+      <form @submit.prevent="sendPost">
         <div class="mb-4">
           <label for="content" class="form-label mb-1">貼文內容</label>
           <textarea
+            v-model="content"
             name="content"
             id="content"
             rows="6"
@@ -20,6 +21,7 @@
         <div class="mb-4">
           <label for="imageUrl" class="form-label mb-1">圖片網址</label>
           <input
+            v-model="imageUrl"
             class="form-control border-2 border-dark px-4"
             type="text"
             name="imageUrl"
@@ -37,6 +39,36 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      user: '6274984b957a7153849d3146',
+      content: '',
+      imageUrl: '',
+    };
+  },
+  methods: {
+    sendPost() {
+      const api = 'http://localhost:3000/posts';
+      const post = {
+        user: '6274984b957a7153849d3146',
+        content: this.content,
+        photo: this.imageUrl,
+      };
+      this.$http
+        .post(api, post)
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+};
+</script>
 
 <style lang="scss" scoped>
 .box-shift {
@@ -57,7 +89,7 @@
   }
 }
 .btn-hover:hover {
-  background-color: #EEC32A;
+  background-color: #eec32a;
   box-shadow: -2px 2px 0px #000400;
 }
 .w-60 {
