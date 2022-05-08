@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     sendPost() {
-      const api = 'http://localhost:3000/posts';
+      const api = `${process.env.VUE_APP_API_BASE}/posts`;
       const post = {
         user: '6274984b957a7153849d3146',
         content: this.content,

@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     getPosts() {
-      const api = 'http://localhost:3000/posts';
+      const api = `${process.env.VUE_APP_API_BASE}/posts`;
       this.$http.get(api).then((res) => {
         if (res.data.status === 'success') {
           this.posts = res.data.data;
