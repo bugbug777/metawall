@@ -11,6 +11,7 @@
     </select>
     <div class="input-group">
       <input
+        @keyup.enter="searchForKeyword"
         v-model="keyword"
         type="text"
         class="form-control rounded-0 border-end-0 border-2 border-dark font-azeret py-3 px-4"

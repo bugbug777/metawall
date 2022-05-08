@@ -1,6 +1,6 @@
 <template>
   <Searchbar @orderByCreatedAt="getPosts" @searchForKeyword="updatePosts" class="mb-4" />
-  <ul>
+  <ul v-if="posts.length > 0">
     <li v-for="post in posts" :key="post._id" class="card border-2 border-dark shadow-card mb-4">
       <div class="card-body p-6">
         <div class="d-flex mb-4">
@@ -17,6 +17,20 @@
       </div>
     </li>
   </ul>
+  <div v-else>
+    <div class="card border-2 border-dark shadow-card">
+      <div class="card-header border-2 border-dark bg-white p-4">
+        <ul class="d-flex">
+          <li class="icon rounded-circle border border-secondary bg-danger me-1"></li>
+          <li class="icon rounded-circle border border-secondary bg-warning me-1"></li>
+          <li class="icon rounded-circle border border-secondary bg-success"></li>
+        </ul>
+      </div>
+      <div class="card-body p-8">
+        <p class="text-center text-secondary">目前尚無動態，新增一則貼文吧！</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -65,5 +79,9 @@ export default {
 .avatar {
   width: 45px;
   height: 45px;
+}
+.icon {
+  width: 9px;
+  height: 9px;
 }
 </style>
