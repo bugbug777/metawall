@@ -2,7 +2,7 @@
   <nav class="border-bottom border-3 border-dark">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center py-3">
-        <h1><a href="#" class="font-paytone fs-26 text-dark">MetaWall</a></h1>
+        <h1><router-link to="/" class="font-paytone fs-26 text-dark">MetaWall</router-link></h1>
         <div class="dropdown">
           <button
             id="dLabel"
