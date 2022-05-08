@@ -1,12 +1,13 @@
 <template>
   <div class="d-flex">
     <select
+      @change="filterPosts"
       class="form-select rounded-0 border-2 border-dark font-azeret py-3 px-4 me-3"
       aria-label="Default select"
       style="max-width: 156px"
     >
-      <option value="latest" selected>最新貼文</option>
-      <option value="hot">熱門貼文</option>
+      <option value="-1" selected>最新貼文</option>
+      <option value="1">最舊貼文</option>
     </select>
     <div class="input-group">
       <input
@@ -26,3 +27,14 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    filterPosts(e) {
+      const sort = e.target.value;
+      this.$emit('filterPosts', sort);
+    },
+  },
+};
+</script>

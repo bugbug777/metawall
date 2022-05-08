@@ -1,5 +1,5 @@
 <template>
-  <Searchbar class="mb-4" />
+  <Searchbar @filterPosts="getPosts" class="mb-4" />
   <ul>
     <li v-for="post in posts" :key="post._id" class="card border-2 border-dark shadow-card mb-4">
       <div class="card-body p-6">
@@ -33,8 +33,11 @@ export default {
     };
   },
   methods: {
-    getPosts() {
-      const api = `${process.env.VUE_APP_API_BASE}/posts`;
+    getPosts(sort) {
+      let api = `${process.env.VUE_APP_API_BASE}/posts`;
+      if (sort !== undefined) {
+        api = `${process.env.VUE_APP_API_BASE}/posts?sort=${sort}`;
+      }
       this.$http.get(api).then((res) => {
         if (res.data.status === 'success') {
           this.posts = res.data.data;
