@@ -29,7 +29,9 @@
             placeholder="請輸入圖片網址"
           />
         </div>
-        <img class="mb-8" src="@/assets/images/image.png" alt="image" />
+        <div v-if="imageUrl">
+          <img class="mb-8" :src="imageUrl" alt="image" />
+        </div>
         <input
           class="d-block w-60 btn btn-gray-2 btn-hover border-2 border-dark fw-bold py-4 mx-auto"
           type="submit"

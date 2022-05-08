@@ -1,5 +1,5 @@
 <template>
-  <Searchbar @filterPosts="getPosts" class="mb-4" />
+  <Searchbar @orderByCreatedAt="getPosts" @searchForKeyword="updatePosts" class="mb-4" />
   <ul>
     <li v-for="post in posts" :key="post._id" class="card border-2 border-dark shadow-card mb-4">
       <div class="card-body p-6">
@@ -33,11 +33,18 @@ export default {
     };
   },
   methods: {
-    getPosts(sort) {
-      let api = `${process.env.VUE_APP_API_BASE}/posts`;
-      if (sort !== undefined) {
-        api = `${process.env.VUE_APP_API_BASE}/posts?sort=${sort}`;
-      }
+    getPosts(v) {
+      const order = v === '1' ? 1 : -1;
+      const api = `${process.env.VUE_APP_API_BASE}/posts?sort=${order}`;
+      this.$http.get(api).then((res) => {
+        if (res.data.status === 'success') {
+          this.posts = res.data.data;
+        }
+      });
+    },
+    updatePosts(v) {
+      const keyword = v;
+      const api = `${process.env.VUE_APP_API_BASE}/posts?keyword=${keyword}`;
       this.$http.get(api).then((res) => {
         if (res.data.status === 'success') {
           this.posts = res.data.data;
