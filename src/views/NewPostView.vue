@@ -63,7 +63,7 @@ export default {
   },
   data() {
     return {
-      user: '6274984b957a7153849d3146',
+      user: '6279717faf641c504afca5e0',
       content: '',
       imageUrl: '',
     };
@@ -72,7 +72,7 @@ export default {
     sendPost() {
       const api = `${process.env.VUE_APP_API_BASE}/posts`;
       const post = {
-        user: '6274984b957a7153849d3146',
+        user: this.user,
         content: this.content,
         photo: this.imageUrl,
       };
