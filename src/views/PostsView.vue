@@ -48,11 +48,13 @@ export default {
   },
   methods: {
     getPosts(v) {
+      const loader = this.$loading.show();
       const order = v === '1' ? 1 : -1;
       const api = `${process.env.VUE_APP_API_BASE}/posts?sort=${order}`;
       this.$http.get(api).then((res) => {
         if (res.data.status === 'success') {
           this.posts = res.data.data;
+          loader.hide();
         }
       });
     },
