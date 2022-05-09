@@ -6,7 +6,7 @@
   </div>
   <div class="card border-2 border-dark">
     <div class="card-body p-8">
-      <Form @submit.prevent="sendPost" v-slot="{ errors }">
+      <Form @submit="sendPost" v-slot="{ errors }">
         <div class="mb-4">
           <label for="content" class="form-label mb-1">貼文內容</label>
           <textarea
