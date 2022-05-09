@@ -79,10 +79,15 @@ export default {
       this.$http
         .post(api, post)
         .then((res) => {
-          console.log(res);
+          if (res.data.status === 'success') {
+            alert('成功新增貼文，即將跳轉動態牆！');
+            this.$router.push('/');
+          }
         })
         .catch((err) => {
-          console.log(err);
+          if (err) {
+            console.log(err);
+          }
         });
     },
     isUrl(value) {
