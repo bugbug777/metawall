@@ -6,7 +6,7 @@
   </div>
   <div class="card border-2 border-dark">
     <div class="card-body p-8">
-      <form @submit.prevent="sendPost">
+      <Form @submit.prevent="sendPost" v-slot="{ errors }">
         <div class="mb-4">
           <label for="content" class="form-label mb-1">貼文內容</label>
           <textarea
@@ -20,16 +20,19 @@
         </div>
         <div class="mb-4">
           <label for="imageUrl" class="form-label mb-1">圖片網址</label>
-          <input
+          <Field
             v-model="imageUrl"
             class="form-control border-2 border-dark px-4"
+            :class="{ 'is-invalid': errors.imageUrl }"
             type="text"
             name="imageUrl"
             id="imageUrl"
             placeholder="請輸入圖片網址"
+            :rules="isUrl"
           />
+          <ErrorMessage class="invalid-feedback" name="imageUrl" />
         </div>
-        <div v-if="imageUrl">
+        <div v-if="imageUrl.startsWith('https://')">
           <img class="mb-8" :src="imageUrl" alt="image" />
         </div>
         <input
@@ -37,13 +40,27 @@
           type="submit"
           value="送出貼文"
         />
-      </form>
+      </Form>
     </div>
   </div>
 </template>
 
 <script>
+import {
+  Field, Form, ErrorMessage, configure,
+} from 'vee-validate';
+
+// Default values
+configure({
+  validateOnInput: true,
+});
+
 export default {
+  components: {
+    Field,
+    Form,
+    ErrorMessage,
+  },
   data() {
     return {
       user: '6274984b957a7153849d3146',
@@ -67,6 +84,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    isUrl(value) {
+      return value.startsWith('https://') ? true : '圖片網址不符合格式';
     },
   },
 };
