@@ -48,14 +48,19 @@ export default {
   },
   methods: {
     getPosts(v) {
-      const loader = this.$loading.show();
+      // const loader = this.$loading.show();
+      const token = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYTFhNjM2ZmZhZTkxYjM1NzI5NDFjZiIsImlhdCI6MTY1NDc2MTAxNCwiZXhwIjoxNjU3MzUzMDE0fQ.yvAdmtVPyeJrxL8Je_LlbHmLv6UuKF4LGztROYxEdD0';
+      this.$http.defaults.headers.common.Authorization = token;
+
       const order = v === '1' ? 1 : -1;
       const api = `${process.env.VUE_APP_API_BASE}/posts?sort=${order}`;
       this.$http.get(api).then((res) => {
         if (res.data.status === 'success') {
           this.posts = res.data.data;
-          loader.hide();
+          // loader.hide();
         }
+      }).catch((err) => {
+        console.log(err);
       });
     },
     updatePosts(v) {
