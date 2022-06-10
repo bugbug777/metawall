@@ -23,5 +23,19 @@ export default {
     Navbar,
     Sidebar,
   },
+  methods: {
+    checkAuth() {
+      const token = localStorage.getItem('token');
+      this.$http.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+      if (!token) {
+        alert('您尚未登入！');
+        this.$router.push('/login');
+      }
+    },
+  },
+  created() {
+    this.checkAuth();
+  },
 };
 </script>
