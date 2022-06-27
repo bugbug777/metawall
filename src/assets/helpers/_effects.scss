@@ -1,0 +1,39 @@
+.overlapping {
+  position: relative;
+
+  &::before {
+    position: absolute;
+    display: block;
+    content: "";
+    top: 2px;
+    right: 2px;
+    left: -6px;
+    bottom: -6px;
+    z-index: -1;
+    border: 2px solid #000400;
+    background-color: #fff;
+  }
+
+  &-rounded::before {
+    border-radius: 8px;
+  }
+}
+
+.hover {
+  &-primary:hover {
+    color: #03438D !important;
+    i {
+      background-color: #03438D !important;
+      color: #fff !important;
+    }
+  }
+
+  &-userlink:hover {
+    color: #03438d;
+    text-decoration: underline;
+  }
+
+  &-shadow:hover {
+    box-shadow: -2px 2px 0px #000400;
+  }
+}

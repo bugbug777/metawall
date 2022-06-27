@@ -1,0 +1,17 @@
+.btn-shadow {
+  box-shadow: -2px 2px 0px #000400;
+  &-2 {
+    box-shadow: 0px 2px 0px #000400;
+    &:hover {
+      box-shadow: none;
+    }
+  }
+}
+.btn-hover-warning:hover {
+  background-color: #eec32a !important;
+  color: #000400 !important;
+}
+.btn-hover-primary:hover {
+  background-color: #03438D !important;
+  color: #fff !important;
+}

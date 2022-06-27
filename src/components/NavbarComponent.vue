@@ -1,8 +1,12 @@
 <template>
-  <nav class="border-bottom border-3 border-dark">
-    <div class="container">
-      <div class="d-flex justify-content-between align-items-center py-3">
-        <h1><router-link to="/" class="font-paytone fs-26 text-dark">MetaWall</router-link></h1>
+  <nav class="border-bottom border-2 border-dark | bg-white">
+    <div class="mw-869 | container">
+      <div class="d-flex justify-content-between align-items-center | py-3">
+        <h1>
+          <router-link class="d-block font-paytone fs-26 lh-14 text-dark" to="/posts"
+            >MetaWall</router-link
+          >
+        </h1>
         <div class="dropdown">
           <button
             id="dLabel"
@@ -10,47 +14,27 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
             class="d-flex align-items-center"
-            data-bs-offset="0,11.25"
+            data-bs-offset="0, 8"
           >
-            <img class="avatar me-2" src="@/assets/images/user.png" alt="gonsakon" />
-            <span class="font-azeret fw-bold border-bottom border-2 border-dark">Member</span>
+            <img class="image-size-1 me-2" src="@/assets/images/user.png" alt="avatar" />
+            <span class="font-azeret fw-bold | border-bottom border-2 border-dark | px-1"
+              >Member</span
+            >
           </button>
           <ul
-            class="dropdown-menu box rounded-0 text-center p-0"
+            class="dropdown-menu dropdown-shadow rounded-0 text-center p-0"
             aria-labelledby="dLabel"
           >
-            <li class="border border-bottom-0 border-2 border-dark bg-white hover-gray py-2">
-              我的貼文牆
+            <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
+              <router-link class="d-block link-dark py-2" to="/posts/123">我的貼文牆</router-link>
             </li>
-            <li class="border border-bottom-0 border-2 border-dark bg-white hover-gray py-2">
-              修改個人資料
+            <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
+              <router-link class="d-block link-dark py-2" to="/info">修改個人資料</router-link>
             </li>
-            <li class="border border-2 border-dark bg-white hover-gray py-2">登出</li>
+            <li class="dropdown-menu-item border border-2 border-dark py-2">登出</li>
           </ul>
         </div>
       </div>
     </div>
   </nav>
 </template>
-
-<style lang="scss" scoped>
-.avatar {
-  width: 30px;
-  height: 30px;
-}
-.hover-gray:hover {
-  background-color: #efece7 !important;
-}
-.box::before {
-  position: absolute;
-  display: block;
-  content: '';
-  top: 8px;
-  right: -8px;
-  bottom: -8px;
-  left: 8px;
-  border: 2px solid #000400;
-  background-color: #fff;
-  z-index: -1;
-}
-</style>

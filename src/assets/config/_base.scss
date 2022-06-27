@@ -1,25 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400;700&family=Noto+Sans+TC:wght@400;700&family=Paytone+One&display=swap');
-
-html {
+body {
   background-color: #EFECE7;
+  background-image: url('@/assets/images/bg.svg');
+  background-position: center;
+  background-size: cover;
+  color: #000400;
 }
 h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0;
+}
+img {
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
   margin-bottom: 0;
 }
 p {
   margin-bottom: 0;
 }
-ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
 a {
   text-decoration: none;
-}
-img {
-  display: block;
-  max-width: 100%;
 }
 button {
   border: 0;

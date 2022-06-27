@@ -3,21 +3,39 @@ import { createRouter, createWebHashHistory } from 'vue-router';
 const routes = [
   {
     path: '/login',
-    name: 'login',
     component: () => import('../views/LoginView.vue'),
   },
   {
+    path: '/register',
+    component: () => import('../views/RegisterView.vue'),
+  },
+  {
     path: '/',
-    name: 'home',
-    component: () => import('../views/FrontView.vue'),
+    component: () => import('../views/MetawallView.vue'),
     children: [
       {
-        path: '',
+        path: 'posts',
         component: () => import('../views/PostsView.vue'),
       },
       {
-        path: 'newpost',
-        component: () => import('../views/NewPostView.vue'),
+        path: 'posts/:id',
+        component: () => import('../views/PersonalView.vue'),
+      },
+      {
+        path: 'post',
+        component: () => import('../views/PostView.vue'),
+      },
+      {
+        path: 'following',
+        component: () => import('../views/FollowingView.vue'),
+      },
+      {
+        path: 'likes',
+        component: () => import('../views/LikesView.vue'),
+      },
+      {
+        path: 'info',
+        component: () => import('../views/InfoView.vue'),
       },
     ],
   },

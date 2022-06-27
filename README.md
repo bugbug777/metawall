@@ -1,29 +1,10 @@
-# metawall
+# Metawall NFT 社群媒體
 
-## Project setup
+Metawall 是一個用來交流、分享 NFT 相關資訊的社群媒體。
 
-```=shell
-yarn install
-```
+## 相關技術
 
-### Compiles and hot-reloads for development
+- Bootstrap 5
+- Vue 3
 
-```=shell
-yarn serve
-```
-
-### Compiles and minifies for production
-
-```=shell
-yarn build
-```
-
-### Lints and fixes files
-
-```=shell
-yarn lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 畫面展示

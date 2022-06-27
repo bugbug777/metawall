@@ -5,4 +5,10 @@
 @import "~bootstrap/scss/root";
 @import "~bootstrap/scss/bootstrap";
 
-@import "./config/base";
+// My Own
+@import './config/base';
+@import './components/dropdown';
+@import './components//card';
+@import './components/button';
+@import './helpers/images';
+@import './helpers/effects';
