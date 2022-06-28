@@ -81,7 +81,6 @@ export default {
                   type="name"
                   placeholder="暱稱"
                 />
-                <!-- <ErrorMessage name="name" /> -->
                 <p v-if="errors.name" class="text-start text-danger | mt-1">
                   暱稱至少 2 個字元以上
                 </p>
