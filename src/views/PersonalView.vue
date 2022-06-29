@@ -18,7 +18,7 @@
               border-2 border-dark | fw-bold | px-8"
               :class="{ 'btn-gray-1': false }"
             >
-              {{ `${ true ? '追蹤' : '取消追蹤'}` }}
+              {{ `${true ? '追蹤' : '取消追蹤'}` }}
             </button>
           </div>
         </div>
@@ -41,7 +41,9 @@
             class="image-size-45 | border rounded-circle border-2 border-dark | me-4"
           />
           <h5 class="card-title mb-0">
-            <router-link class="d-block | link-dark hover-userlink | fs-6 lh-base" to="/posts/123"
+            <router-link
+              class="d-block | link-dark hover-userlink | fs-6 lh-base"
+              to="/posts/user/123"
               >阿爾敏</router-link
             >
             <time datetime="2022-1-10 12:00" class="d-block | fs-8 text-secondary lh-16"

@@ -26,7 +26,7 @@ export default {
               timer: 1000,
               showConfirmButton: false,
             }).then(() => {
-              router.push('/posts');
+              router.push('/login');
             });
           }
         })

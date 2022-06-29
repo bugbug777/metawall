@@ -20,7 +20,7 @@
               <h3>
                 <router-link
                   class="d-block | link-dark hover-userlink | fw-bold fs-6 lh-base"
-                  to="/posts/123"
+                  to="/posts/user/123"
                   >波吉</router-link
                 >
               </h3>

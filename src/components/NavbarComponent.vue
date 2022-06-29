@@ -26,7 +26,7 @@
             aria-labelledby="dLabel"
           >
             <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
-              <router-link class="d-block link-dark py-2" to="/posts/123">我的貼文牆</router-link>
+              <router-link class="d-block link-dark py-2" to="/posts/user/123">我的貼文牆</router-link>
             </li>
             <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
               <router-link class="d-block link-dark py-2" to="/info">修改個人資料</router-link>

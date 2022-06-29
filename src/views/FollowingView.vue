@@ -16,7 +16,7 @@
           />
         <div class="flex-grow-1">
           <h3><router-link class="d-block | link-dark hover-userlink |
-          fw-bold fs-6 lh-base" to="/posts/123"
+          fw-bold fs-6 lh-base" to="/posts/user/123"
               >波吉</router-link
             ></h3>
           <div class="d-flex justify-content-between">
