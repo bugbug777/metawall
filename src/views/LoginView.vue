@@ -1,7 +1,7 @@
 <script>
 import { inject, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
+import { successAlert } from '../utils/sweetalert';
 
 export default {
   setup() {
@@ -20,12 +20,7 @@ export default {
         .then((res) => {
           if (res.data.status) {
             localStorage.setItem('jwt', res.data.user.token);
-            Swal.fire({
-              icon: 'success',
-              text: '登入成功！',
-              timer: 1000,
-              showConfirmButton: false,
-            }).then(() => {
+            successAlert('登入成功！').then(() => {
               router.push('/posts');
             });
           }
@@ -93,7 +88,7 @@ export default {
               </div>
               <p v-if="!isVerified" class="text-center text-danger | mb-4">
                 帳號或密碼錯誤，請重新輸入！
-                </p>
+              </p>
               <p v-else class="text-center text-danger | mb-4">
                 {{ errors.Email || errors.password }}
               </p>

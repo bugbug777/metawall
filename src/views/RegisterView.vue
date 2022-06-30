@@ -1,7 +1,7 @@
 <script>
 import { ref, reactive, inject } from 'vue';
 import { useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
+import { successAlert, errorAlert } from '@/utils/sweetalert';
 
 export default {
   setup() {
@@ -20,12 +20,7 @@ export default {
         .post(api, user)
         .then((res) => {
           if (res.data.status) {
-            Swal.fire({
-              icon: 'success',
-              text: '註冊成功！',
-              timer: 1000,
-              showConfirmButton: false,
-            }).then(() => {
+            successAlert('註冊成功！').then(() => {
               router.push('/login');
             });
           }
@@ -34,10 +29,7 @@ export default {
           if (err.response.data.message === '該電子信箱已被使用者註冊！') {
             isRegistered.value = true;
           } else {
-            Swal.fire({
-              icon: 'error',
-              text: '這是無效的操作！',
-            });
+            errorAlert();
           }
         });
     };
