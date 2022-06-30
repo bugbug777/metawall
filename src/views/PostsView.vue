@@ -100,7 +100,7 @@ export default {
           />
           <h5 class="card-title mb-0">
             <router-link
-              class="d-block | link-dark hover-userlink | fs-6 lh-base"
+              class="d-block | link-dark hover-userlink | fw-bold fs-6 lh-base"
               :to="`/posts/user/${post.user._id}`"
               >{{ post.user.name }}</router-link
             >
