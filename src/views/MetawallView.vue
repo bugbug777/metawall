@@ -48,7 +48,6 @@ export default {
               name,
               avatar,
             });
-            router.push('/posts');
           }
         })
         .catch((err) => {
