@@ -13,26 +13,18 @@ export default {
     });
     const isVerified = ref(true);
 
-    const login = () => {
+    const login = async () => {
       const api = 'http://localhost:3000/users/sign_in';
-      axios
-        .post(api, user)
-        .then((res) => {
-          if (res.data.status) {
-            localStorage.setItem('jwt', res.data.user.token);
-            successAlert('登入成功！').then(() => {
-              router.push('/posts');
-            });
-          }
-        })
-        .catch((err) => {
-          if (!err.response.data.status) {
-            isVerified.value = false;
-            setTimeout(() => {
-              isVerified.value = true;
-            }, 3000);
-          }
-        });
+      try {
+        const res = await axios.post(api, user);
+        localStorage.setItem('jwt', res.data.user.token);
+        successAlert('登入成功！').then(() => router.push('/posts'));
+      } catch (error) {
+        isVerified.value = false;
+        setTimeout(() => {
+          isVerified.value = true;
+        }, 3000);
+      }
     };
 
     return {

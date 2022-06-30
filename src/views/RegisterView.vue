@@ -1,5 +1,5 @@
 <script>
-import { ref, reactive, inject } from 'vue';
+import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
 import { successAlert, errorAlert } from '@/utils/sweetalert';
 
@@ -7,31 +7,25 @@ export default {
   setup() {
     const axios = inject('axios');
     const router = useRouter();
-    const user = reactive({
+    const user = ref({
       name: '',
       email: '',
       password: '',
     });
     const isRegistered = ref(false);
 
-    const register = () => {
+    const register = async () => {
       const api = 'http://localhost:3000/users/sign_up';
-      axios
-        .post(api, user)
-        .then((res) => {
-          if (res.data.status) {
-            successAlert('註冊成功！').then(() => {
-              router.push('/login');
-            });
-          }
-        })
-        .catch((err) => {
-          if (err.response.data.message === '該電子信箱已被使用者註冊！') {
-            isRegistered.value = true;
-          } else {
-            errorAlert();
-          }
-        });
+      try {
+        await axios.post(api, user.value);
+        successAlert('註冊成功！').then(() => router.push('/login'));
+      } catch (error) {
+        if (error.response.data.message === '該電子信箱已被使用者註冊！') {
+          isRegistered.value = true;
+        } else {
+          errorAlert();
+        }
+      }
     };
 
     return {
@@ -115,8 +109,8 @@ export default {
               </div>
               <button
                 type="submit"
-                class="w-100 | btn bg-gray-2 border rounded-8 border-2
-                border-gray-4 text-white | py-4"
+                class="w-100 | btn bg-gray-2 border rounded-8
+                border-2 border-gray-4 text-white | py-4"
               >
                 註冊
               </button>
