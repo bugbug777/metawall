@@ -1,8 +1,7 @@
 <script>
 import Searchbar from '@/components/SearchbarComponent.vue';
 import { inject, onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import Swal from 'sweetalert2';
+import userStore from '@/stores/user';
 import dayjs from 'dayjs';
 
 export default {
@@ -13,7 +12,7 @@ export default {
     const axios = inject('axios');
     const token = localStorage.getItem('jwt');
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-    const router = useRouter();
+    const user = userStore();
     const posts = ref([]);
 
     // 取得所有貼文
@@ -24,18 +23,6 @@ export default {
         .then((res) => {
           if (res.data.status) {
             posts.value = res.data.posts;
-          }
-        })
-        .catch((err) => {
-          if (!err.response.data.status) {
-            Swal.fire({
-              icon: 'error',
-              text: '您尚未登入！',
-              timer: 1500,
-              showConfirmButton: false,
-            }).then(() => {
-              router.push('/login');
-            });
           }
         });
     };
@@ -81,6 +68,7 @@ export default {
     const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
 
     return {
+      user,
       posts,
       toogleLike,
       addComment,
@@ -139,7 +127,7 @@ export default {
         <!-- 留言區 -->
         <div class="d-flex align-items-center | mb-5">
           <img
-            :src="post.user.avatar"
+            :src="user.avatar"
             alt="avatar"
             class="image-size-40 | border rounded-circle border-2 border-dark | me-2"
           />

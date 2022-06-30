@@ -1,3 +1,17 @@
+<script>
+import userStore from '@/stores/user';
+
+export default {
+  setup() {
+    const user = userStore();
+
+    return {
+      user,
+    };
+  },
+};
+</script>
+
 <template>
   <nav class="border-bottom border-2 border-dark | bg-white">
     <div class="mw-869 | container">
@@ -16,7 +30,11 @@
             class="d-flex align-items-center"
             data-bs-offset="0, 8"
           >
-            <img class="image-size-1 me-2" src="@/assets/images/user.png" alt="avatar" />
+            <img
+              class="image-size-1 border border-2 rounded-circle border-dark | me-2"
+              :src="user.avatar"
+              alt="avatar"
+            />
             <span class="font-azeret fw-bold | border-bottom border-2 border-dark | px-1"
               >Member</span
             >
@@ -26,7 +44,9 @@
             aria-labelledby="dLabel"
           >
             <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
-              <router-link class="d-block link-dark py-2" to="/posts/user/123">我的貼文牆</router-link>
+              <router-link class="d-block link-dark py-2" to="/posts/user/123"
+                >我的貼文牆</router-link
+              >
             </li>
             <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
               <router-link class="d-block link-dark py-2" to="/info">修改個人資料</router-link>

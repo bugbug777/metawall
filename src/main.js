@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import {
@@ -30,10 +31,13 @@ configure({
 // 指定語言環境
 setLocale('zh_TW');
 
+const pinia = createPinia();
 const app = createApp(App);
+
 app.component('VForm', Form);
 app.component('VField', Field);
 app.component('ErrorMessage', ErrorMessage);
+app.use(pinia);
 app.use(router);
 app.use(VueAxios, axios);
 app.provide('axios', app.config.globalProperties.axios);
