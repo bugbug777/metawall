@@ -11,7 +11,6 @@ export default {
   setup() {
     const axios = inject('axios');
     const token = localStorage.getItem('jwt');
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     const user = userStore();
     const posts = ref([]);
 

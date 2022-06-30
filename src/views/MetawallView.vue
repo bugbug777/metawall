@@ -43,11 +43,9 @@ export default {
         .then((res) => {
           if (res.data.status) {
             const { _id, name, avatar } = res.data.user;
-            user.$patch({
-              id: _id,
-              name,
-              avatar,
-            });
+            user.id = _id;
+            user.name = name;
+            user.avatar = avatar;
           }
         })
         .catch((err) => {
