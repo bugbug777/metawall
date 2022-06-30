@@ -16,7 +16,7 @@
 <script>
 import Navbar from '@/components/NavbarComponent.vue';
 import Sidebar from '@/components/SidebarComponent.vue';
-import { inject, onMounted } from 'vue';
+import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import userStore from '@/stores/user';
 import Swal from 'sweetalert2';
@@ -44,7 +44,7 @@ export default {
           if (res.data.status) {
             const { _id, name, avatar } = res.data.user;
             user.$patch({
-              _id,
+              id: _id,
               name,
               avatar,
             });
@@ -63,10 +63,7 @@ export default {
           }
         });
     };
-
-    onMounted(() => {
-      checkAuth();
-    });
+    checkAuth();
 
     return {
       user,

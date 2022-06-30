@@ -1,12 +1,28 @@
 <script>
+import { useRouter } from 'vue-router';
 import userStore from '@/stores/user';
+import Swal from 'sweetalert2';
 
 export default {
   setup() {
+    const router = useRouter();
     const user = userStore();
+
+    const logout = () => {
+      localStorage.removeItem('jwt');
+      Swal.fire({
+        icon: 'success',
+        text: '登出成功！',
+        timer: 1000,
+        showConfirmButton: false,
+      }).then(() => {
+        router.push('/login');
+      });
+    };
 
     return {
       user,
+      logout,
     };
   },
 };
@@ -44,14 +60,16 @@ export default {
             aria-labelledby="dLabel"
           >
             <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
-              <router-link class="d-block link-dark py-2" to="/posts/user/123"
+              <router-link class="d-block link-dark py-2" :to="`/posts/user/${user.id}`"
                 >我的貼文牆</router-link
               >
             </li>
             <li class="dropdown-menu-item border border-bottom-0 border-2 border-dark">
               <router-link class="d-block link-dark py-2" to="/info">修改個人資料</router-link>
             </li>
-            <li class="dropdown-menu-item border border-2 border-dark py-2">登出</li>
+            <li class="dropdown-menu-item border border-2 border-dark">
+              <a @click.prevent="logout" class="d-block link-dark py-2" href="#"> 登出 </a>
+            </li>
           </ul>
         </div>
       </div>

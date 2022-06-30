@@ -57,6 +57,7 @@ export default {
       const api = `http://localhost:3000/posts/${postId}/comment`;
       axios.post(api, { content: commentMsg.value }).then((res) => {
         if (res.data.status) {
+          commentMsg.value = '';
           getPosts();
         }
       }).catch((err) => {
