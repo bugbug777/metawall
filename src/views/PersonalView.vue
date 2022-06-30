@@ -74,7 +74,7 @@ export default {
         <p class="card-text | mb-4">
           {{ post.content }}
         </p>
-        <img :src="post.photo" alt="photo" class="card-img | mb-4" />
+        <img v-if="post.imageUrl" :src="post.imageUrl" alt="photo" class="card-img | mb-4" />
       </div>
     </li>
   </ul>

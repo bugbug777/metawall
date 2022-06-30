@@ -1,7 +1,94 @@
+<script>
+import { inject, onMounted, ref } from 'vue';
+import { successAlert, errorAlert } from '@/utils/sweetalert';
+import { useRouter } from 'vue-router';
+
+export default {
+  setup() {
+    const axios = inject('axios');
+    const router = useRouter();
+    const apiBase = 'http://localhost:3000';
+    const user = ref({});
+
+    // 取得個人資料
+    const getProfile = async () => {
+      const api = `${apiBase}/users/profile`;
+      try {
+        const res = await axios.get(api);
+        user.value = res.data.user;
+      } catch (error) {
+        errorAlert();
+      }
+    };
+    onMounted(() => {
+      getProfile();
+    });
+
+    // 上傳大頭貼
+    const isFailed = ref(false);
+    const uploadImage = async (e) => {
+      const api = `${apiBase}/upload?type="avatar"`;
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      try {
+        const res = await axios.post(api, formData);
+        successAlert('上傳成功！');
+        user.value.avatar = res.data.imageUrl;
+      } catch (error) {
+        errorAlert('上傳失敗，請重新上傳圖片！');
+        isFailed.value = true;
+      }
+    };
+
+    // 更新個人資料
+    const updateProfile = async () => {
+      const api = `${apiBase}/users/profile`;
+      try {
+        await axios.patch(api, user.value);
+        successAlert('個人資料更新成功！').then(() => {
+          getProfile();
+        });
+      } catch (error) {
+        errorAlert();
+      }
+    };
+
+    // 重設密碼
+    const userPassword = ref({
+      password: '',
+      confirmedPassword: '',
+    });
+    const updatePassword = async () => {
+      const api = `${apiBase}/users/updatePassword`;
+      try {
+        console.log(userPassword.value);
+        await axios.post(api, userPassword.value);
+        successAlert('個人資料更新成功！').then(() => {
+          localStorage.removeItem('jwt');
+          router.push('/login');
+        });
+      } catch (error) {
+        errorAlert('密碼前後不一致！');
+      }
+    };
+
+    return {
+      user,
+      getProfile,
+      uploadImage,
+      isFailed,
+      updateProfile,
+      updatePassword,
+      userPassword,
+    };
+  },
+};
+</script>
+
 <template>
   <div
-    class="overlapping | border border-2 border-dark | text-center
-    font-monospace | bg-white | py-5 mb-8"
+    class="overlapping | border border-2 border-dark | text-center font-monospace |
+    bg-white | py-5 mb-8"
   >
     <h2 class="fs-5">修改個人資料</h2>
   </div>
@@ -10,8 +97,8 @@
   <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <button
-        class="nav-link tab-normal | border border-bottom-0 rounded-top-8
-        border-2 border-dark | px-6 active"
+        class="nav-link tab-normal | border border-bottom-0 rounded-top-8 border-2
+        border-dark | px-6 active"
         id="profile-tab"
         data-bs-toggle="tab"
         data-bs-target="#profile"
@@ -25,8 +112,8 @@
     </li>
     <li class="nav-item" role="presentation">
       <button
-        class="nav-link tab-normal | border border-bottom-0 rounded-top-8
-        border-2 border-dark | px-6"
+        class="nav-link tab-normal | border border-bottom-0 rounded-top-8 border-2
+        border-dark | px-6"
         id="password-tab"
         data-bs-toggle="tab"
         data-bs-target="#password"
@@ -50,28 +137,32 @@
       aria-labelledby="profile-tab"
     >
       <div class="d-flex flex-column align-items-center mb-3">
-        <img class="mb-4" src="@/assets/images/user_default.png" alt="預設大頭貼" />
-        <input
-          class="btn btn-dark | rounded-0 | text-white | py-1 px-6"
-          type="button"
-          value="上傳大頭照"
-        />
+        <img class="mw-107 border rounded-circle border-2 border-dark |
+        mb-4" :src="user.avatar" alt="預設大頭貼" />
+
+        <label
+          class="btn btn-dark | rounded-0 | text-white | py-1 px-6 mb-3"
+          for="image"
+          >上傳大頭照
+          <input @change="uploadImage" class="d-none" type="file" name="image" id="image" />
+        </label>
       </div>
       <div class="w-60 | card-body | p-0 mx-auto">
         <div class="mb-4">
           <label for="name" class="form-label mb-1">暱稱</label>
           <input
+            v-model="user.name"
             type="text"
             class="form-control | rounded-0 border-2 border-dark | py-3 px-6"
             id="name"
             placeholder="請輸入暱稱"
-            value="邊緣小傑"
           />
         </div>
         <div class="mb-8">
           <h6 class="mb-2">性別</h6>
           <div class="form-check form-check-inline">
             <input
+              v-model="user.gender"
               class="form-check-input"
               type="radio"
               name="inlineRadioOptions"
@@ -83,6 +174,7 @@
           </div>
           <div class="form-check form-check-inline">
             <input
+              v-model="user.gender"
               class="form-check-input"
               type="radio"
               name="inlineRadioOptions"
@@ -92,13 +184,14 @@
             <label class="form-check-label" for="female">女性</label>
           </div>
         </div>
-        <div class="invalid-feedback text-center fs-7 mt-0 mb-4">
+        <div v-if="isFailed" class="text-center text-danger | fs-7 | mt-0 mb-4">
           1.圖片寬高比必需為 1:1，請重新輸入<br />
           2. 解析度寬度至少 300像素以上，請重新輸入
         </div>
         <button
-          class="d-block w-100 | btn btn-shadow btn-warning
-          btn-hover-primary | border border-2 border-dark | py-4"
+          @click="updateProfile"
+          class="d-block w-100 | btn btn-shadow btn-warning btn-hover-primary | border
+          border-2 border-dark | py-4"
           type="button"
         >
           送出更新
@@ -112,6 +205,7 @@
         <div class="mb-4">
           <label for="newPassword" class="form-label mb-1">輸入新密碼</label>
           <input
+            v-model="userPassword.password"
             type="password"
             class="form-control | rounded-0 border-2 border-dark | py-3 px-6"
             id="newPassword"
@@ -121,6 +215,7 @@
         <div class="mb-8">
           <label for="confirmPassword" class="form-label mb-1">再次輸入</label>
           <input
+            v-model="userPassword.confirmedPassword"
             type="password"
             class="form-control | rounded-0 border-2 border-dark | py-3 px-6"
             id="confirmPassword"
@@ -128,8 +223,9 @@
           />
         </div>
         <input
-          class="d-block w-100 | btn btn-gray-2 | border border-2
-          border-gray-3 | text-white lh-sm | py-4"
+          @click="updatePassword"
+          class="d-block w-100 | btn btn-gray-2 | border border-2 border-gray-3 |
+          text-white lh-sm | py-4"
           type="button"
           value="重設密碼"
         />

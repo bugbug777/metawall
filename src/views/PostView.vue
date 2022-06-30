@@ -1,29 +1,58 @@
 <script>
 import { inject, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { successAlert, errorAlert } from '@/utils/sweetalert';
 
 export default {
   setup() {
     const axios = inject('axios');
+    const router = useRouter();
+    const apiBase = 'http://localhost:3000';
     const post = ref({
       content: 'The post is created by Sihle',
-      photo:
-        'https://images.unsplash.com/photo-1504805572947-34fad45aed93?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&q=80',
+      imageUrl: '',
     });
-    const sendPost = () => {
-      const api = 'http://localhost:3000/posts';
-      axios
-        .post(api, post.value)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
+
+    // 送出貼文
+    const sendPost = async () => {
+      const api = `${apiBase}/posts`;
+      try {
+        await axios.post(api, post.value);
+        successAlert('成功發送貼文！').then(() => {
+          router.push('/posts');
         });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    // 上傳圖片
+    const isUploaded = ref(false);
+    const isFailed = ref(false);
+    const uploadImage = async (e) => {
+      const api = `${apiBase}/upload`;
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      try {
+        const res = await axios.post(api, formData);
+        successAlert('上傳成功！');
+        isUploaded.value = true;
+        post.value.imageUrl = res.data.imageUrl;
+      } catch (error) {
+        errorAlert('上傳失敗，請重新上傳圖片！');
+        isFailed.value = true;
+        setTimeout(() => {
+          isFailed.value = false;
+        }, 5000);
+      }
     };
 
     return {
       post,
       sendPost,
+      uploadImage,
+      isFailed,
+      isUploaded,
     };
   },
 };
@@ -48,14 +77,20 @@ export default {
             placeholder="輸入您的貼文內容"
           ></textarea>
         </div>
-        <button type="button" class="btn btn-dark | rounded-2 | py-1 px-8 mb-4">上傳圖片</button>
+        <label
+          class="btn btn-dark | rounded-2 | py-1 px-8"
+          :class="{ 'mb-4': isUploaded, 'mb-8': !isUploaded }"
+          for="image"
+          >上傳圖片
+          <input @change="uploadImage" class="d-none" type="file" name="image" id="image" />
+        </label>
         <img
-          v-if="post.photo"
-          :src="post.photo"
+          v-if="post.imageUrl"
+          :src="post.imageUrl"
           alt="upload image"
           class="card-img rounded-8 | mb-8"
         />
-        <div class="invalid-feedback | text-center | mb-4">
+        <div v-if="isFailed" class="text-center text-danger | mb-4">
           圖片檔案過大，僅限 1mb 以下檔案<br />
           圖片格式錯誤，僅限 JPG、PNG 圖片
         </div>
