@@ -20,24 +20,29 @@ export default {
     const user = userStore();
     const apiBase = process.env.VUE_APP_API_BASE;
     const posts = ref([]);
+    const msg = ref('');
 
     // 取得所有貼文
-    const getPosts = () => {
-      const api = `${apiBase}/posts`;
+    const getPosts = async (keyword, sort = -1) => {
+      let api = '';
+      api = `${apiBase}/posts?sort=${sort}`;
+      if (keyword) api = `${apiBase}/posts?sort=${sort}&keyword=${keyword}`;
+
       status.isLoading = true;
-      axios.get(api).then((res) => {
-        if (res.data.status) {
-          posts.value = res.data.posts;
-          status.isLoading = false;
-        }
-      });
+      try {
+        posts.value = await axios.get(api).then((res) => res.data.posts);
+        if (!posts.value.length && keyword) msg.value = '沒有找到匹配的貼文！';
+        status.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
     };
     onMounted(() => {
       getPosts();
     });
 
     // 按讚、取消讚
-    const toogleLike = (postId, likeList) => {
+    const toogleLike = async (postId, likeList) => {
       const userId = JSON.parse(atob(token.split('.')[1])).id;
       let method;
       let path;
@@ -50,26 +55,23 @@ export default {
         path = 'like';
       }
       const api = `${apiBase}/posts/${postId}/${path}`;
-      axios[method](api).then((res) => {
-        if (res.data.status) {
-          getPosts();
-        }
-      });
+      try {
+        await axios[method](api);
+        getPosts();
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     // 新增留言
-    const addComment = ({ postId, content }) => {
+    const addComment = async ({ postId, content }) => {
       const api = `${apiBase}/posts/${postId}/comment`;
-      axios
-        .post(api, { content })
-        .then((res) => {
-          if (res.data.status) {
-            getPosts();
-          }
-        })
-        .catch((err) => {
-          if (!err.response.data.status);
-        });
+      try {
+        await axios.post(api, { content });
+        getPosts();
+      } catch (error) {
+        console.log(error);
+      }
     };
 
     // 時間格式化
@@ -78,9 +80,11 @@ export default {
     return {
       user,
       posts,
+      getPosts,
       toogleLike,
       addComment,
       datetimeFormatter,
+      msg,
     };
   },
 };
@@ -88,7 +92,7 @@ export default {
 
 <template>
   <!-- 功能列 -->
-  <Searchbar />
+  <Searchbar @sort-posts="getPosts" @search-keyword="getPosts" />
   <!-- 動態牆 -->
   <ul v-if="posts.length">
     <li
@@ -117,7 +121,13 @@ export default {
         <p class="card-text | mb-4">
           {{ post.content }}
         </p>
-        <img v-if="post.imageUrl" :src="post.imageUrl" alt="photo" class="card-img | mb-4" />
+        <div v-if="post.imageUrl" class="ratio ratio-16x9 | mb-4">
+          <img
+            :src="post.imageUrl"
+            alt="photo"
+            class="image-control | border rounded-8 border-2 border-dark"
+          />
+        </div>
 
         <div class="d-flex align-items-center | mb-4">
           <button @click="toogleLike(post._id, post.likes)" type="button" class="me-2">
@@ -168,5 +178,5 @@ export default {
       </div>
     </li>
   </ul>
-  <NoPost v-else />
+  <NoPost :msg="msg" v-else />
 </template>
