@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router';
 import Searchbar from '@/components/SearchbarComponent.vue';
 import InfoCard from '@/components/InfoCardComponent.vue';
 import dayjs from 'dayjs';
+import statusStore from '@/stores/status';
 
 export default {
   components: {
@@ -15,22 +16,20 @@ export default {
   setup() {
     const axios = inject('axios');
     const apiBase = process.env.VUE_APP_API_BASE;
+    const status = statusStore();
     const posts = ref([]);
     const route = useRoute();
     const { id } = route.params;
 
-    const getPosts = () => {
+    const getPosts = async () => {
       const api = `${apiBase}/posts/user/${id}`;
-      axios
-        .get(api)
-        .then((res) => {
-          if (res.data.status) {
-            posts.value = res.data.posts;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      status.isLoading = true;
+      try {
+        posts.value = await axios.get(api).then((res) => res.data.posts);
+        status.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
     };
     onMounted(() => {
       getPosts();

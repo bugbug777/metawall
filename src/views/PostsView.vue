@@ -3,6 +3,7 @@ import Searchbar from '@/components/SearchbarComponent.vue';
 import Commentbar from '@/components/CommentbarComponent.vue';
 import { inject, onMounted, ref } from 'vue';
 import userStore from '@/stores/user';
+import statusStore from '@/stores/status';
 import dayjs from 'dayjs';
 
 export default {
@@ -13,6 +14,7 @@ export default {
   setup() {
     const axios = inject('axios');
     const token = localStorage.getItem('jwt');
+    const status = statusStore();
     const user = userStore();
     const apiBase = process.env.VUE_APP_API_BASE;
     const posts = ref([]);
@@ -20,11 +22,13 @@ export default {
     // 取得所有貼文
     const getPosts = () => {
       const api = `${apiBase}/posts`;
+      status.isLoading = true;
       axios
         .get(api)
         .then((res) => {
           if (res.data.status) {
             posts.value = res.data.posts;
+            status.isLoading = false;
           }
         });
     };

@@ -1,21 +1,25 @@
 <script>
 import { inject, onMounted, ref } from 'vue';
-import { successAlert, errorAlert } from '@/utils/sweetalert';
 import { useRouter } from 'vue-router';
+import { successAlert, errorAlert } from '@/utils/sweetalert';
+import statusStore from '@/stores/status';
 
 export default {
   setup() {
     const axios = inject('axios');
     const router = useRouter();
+    const status = statusStore();
     const apiBase = process.env.VUE_APP_API_BASE;
     const user = ref({});
 
     // 取得個人資料
     const getProfile = async () => {
       const api = `${apiBase}/users/profile`;
+      status.isLoading = true;
       try {
         const res = await axios.get(api);
         user.value = res.data.user;
+        status.isLoading = false;
       } catch (error) {
         errorAlert();
       }

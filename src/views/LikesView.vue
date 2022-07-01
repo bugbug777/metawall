@@ -1,17 +1,25 @@
 <script>
 import { inject, onMounted, ref } from 'vue';
 import dayjs from 'dayjs';
+import statusStore from '@/stores/status';
 
 export default {
   setup() {
     const axios = inject('axios');
     const apiBase = process.env.VUE_APP_API_BASE;
+    const status = statusStore();
     const posts = ref([]);
 
     // 取得所有按讚貼文
     const getLikePosts = async () => {
       const api = `${apiBase}/users/getLikeList`;
-      posts.value = await axios.get(api).then((res) => res.data.posts);
+      status.isLoading = true;
+      try {
+        posts.value = await axios.get(api).then((res) => res.data.posts);
+        status.isLoading = false;
+      } catch (error) {
+        console.log(error);
+      }
     };
     const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
     onMounted(() => {

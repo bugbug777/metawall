@@ -1,19 +1,23 @@
 <script>
 import { inject, onMounted, ref } from 'vue';
 import dayjs from 'dayjs';
+import statusStore from '@/stores/status';
 
 export default {
   setup() {
     const axios = inject('axios');
     const apiBase = process.env.VUE_APP_API_BASE;
+    const status = statusStore();
     const followingList = ref([]);
 
     // 取得追蹤名單
     const getUsers = async () => {
       const api = `${apiBase}/users/following`;
+      status.isLoading = true;
       try {
         const res = await axios.get(api);
         followingList.value = res.data.users;
+        status.isLoading = false;
       } catch (error) {
         console.log(error);
       }

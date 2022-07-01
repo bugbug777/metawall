@@ -2,20 +2,24 @@
 import { inject, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import dayjs from 'dayjs';
+import statusStore from '@/stores/status';
 
 export default {
   setup() {
     const axios = inject('axios');
     const route = useRoute();
     const apiBase = process.env.VUE_APP_API_BASE;
+    const status = statusStore();
     const post = ref([]);
 
     // 取得所有貼文
     const getPost = async () => {
       const { id } = route.params;
       const api = `${apiBase}/posts/${id}`;
+      status.isLoading = true;
       try {
         post.value = await axios.get(api).then((res) => res.data.post);
+        status.isLoading = false;
       } catch (error) {
         console.log(error);
       }

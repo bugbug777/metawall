@@ -1,6 +1,6 @@
 <template>
+  <VueLoading v-model:active="status.isLoading" />
   <Navbar />
-
   <div class="mw-869 | container | pt-12">
     <div class="d-flex justify-content-between">
       <div style="width: 61.3%">
@@ -14,17 +14,21 @@
 </template>
 
 <script>
+import VueLoading from 'vue-loading-overlay';
+import 'vue-loading-overlay/dist/vue-loading.css';
 import Navbar from '@/components/NavbarComponent.vue';
 import Sidebar from '@/components/SidebarComponent.vue';
 import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import userStore from '@/stores/user';
+import statusStore from '@/stores/status';
 import Swal from 'sweetalert2';
 
 export default {
   components: {
     Navbar,
     Sidebar,
+    VueLoading,
   },
   setup() {
     const router = useRouter();
@@ -32,10 +36,10 @@ export default {
     const token = localStorage.getItem('jwt');
     if (!token) router.push('/login');
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+    const status = statusStore();
 
     // 驗證後，取得 user 暱稱、大頭貼、_id 方便其他頁面使用
     const user = userStore();
-
     const checkAuth = () => {
       const api = `${process.env.VUE_APP_API_BASE}/users/check`;
       axios
@@ -65,6 +69,7 @@ export default {
 
     return {
       user,
+      status,
     };
   },
 };
