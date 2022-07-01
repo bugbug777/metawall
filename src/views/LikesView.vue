@@ -80,10 +80,11 @@ export default {
                 <i class="bi bi-hand-thumbs-up | fs-5 lh-1 mb-1"></i>
                 <span class="fw-bold fs-7 lh-14 text-dark">取消</span>
               </button>
-              <a class="d-flex flex-column align-items-center text-dark" href="#">
+              <router-link :to="`/posts/${post._id}`" class="d-flex flex-column
+              align-items-center text-dark">
                 <i class="bi bi-arrow-right-circle | fs-5 lh-1 mb-1"></i>
                 <span class="fw-bold fs-7 lh-14">查看</span>
-              </a>
+              </router-link>
             </div>
           </div>
         </div>

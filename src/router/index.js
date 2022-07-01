@@ -18,6 +18,10 @@ const routes = [
         component: () => import('../views/PostsView.vue'),
       },
       {
+        path: 'posts/:id',
+        component: () => import('../views/PostView.vue'),
+      },
+      {
         path: 'posts/user/:id',
         component: () => import('../views/PersonalView.vue'),
       },
