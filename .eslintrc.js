@@ -12,6 +12,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-param-reassign': 'off',
     'vuejs-accessibility/label-has-for': 'off',
+    'vue/no-setup-props-destructure': 'off',
     camelcase: ['error', { properties: 'never', ignoreImports: true }],
   },
 };

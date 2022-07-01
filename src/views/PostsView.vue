@@ -1,5 +1,6 @@
 <script>
 import Searchbar from '@/components/SearchbarComponent.vue';
+import Commentbar from '@/components/CommentbarComponent.vue';
 import { inject, onMounted, ref } from 'vue';
 import userStore from '@/stores/user';
 import dayjs from 'dayjs';
@@ -7,6 +8,7 @@ import dayjs from 'dayjs';
 export default {
   components: {
     Searchbar,
+    Commentbar,
   },
   setup() {
     const axios = inject('axios');
@@ -52,12 +54,10 @@ export default {
     };
 
     // 新增留言
-    const commentMsg = ref('');
-    const addComment = (postId) => {
+    const addComment = ({ postId, content }) => {
       const api = `${apiBase}/posts/${postId}/comment`;
-      axios.post(api, { content: commentMsg.value }).then((res) => {
+      axios.post(api, { content }).then((res) => {
         if (res.data.status) {
-          commentMsg.value = '';
           getPosts();
         }
       }).catch((err) => {
@@ -73,7 +73,6 @@ export default {
       posts,
       toogleLike,
       addComment,
-      commentMsg,
       datetimeFormatter,
     };
   },
@@ -132,24 +131,7 @@ export default {
             alt="avatar"
             class="image-size-40 | border rounded-circle border-2 border-dark | me-2"
           />
-          <div class="input-group">
-            <input
-              v-model="commentMsg"
-              type="text"
-              class="form-control | rounded-0 border-2 border-dark border-end-0 | py-2 px-4"
-              placeholder="留言..."
-              aria-label="留言"
-              aria-describedby="button-addon2"
-            />
-            <button
-              @click="addComment(post._id)"
-              class="btn btn-primary btn-hover-warning | rounded-0 border-2 border-dark | px-12"
-              type="button"
-              id="button-addon2"
-            >
-              留言
-            </button>
-          </div>
+          <Commentbar :post-id="post._id" @send-comment="addComment" />
         </div>
         <ul>
           <li
