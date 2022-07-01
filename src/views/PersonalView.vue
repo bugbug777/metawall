@@ -5,6 +5,7 @@ import {
 import { useRoute } from 'vue-router';
 import Searchbar from '@/components/SearchbarComponent.vue';
 import InfoCard from '@/components/InfoCardComponent.vue';
+import NoPost from '@/components/NoPostComponent.vue';
 import dayjs from 'dayjs';
 import statusStore from '@/stores/status';
 
@@ -12,6 +13,7 @@ export default {
   components: {
     InfoCard,
     Searchbar,
+    NoPost,
   },
   setup() {
     const axios = inject('axios');
@@ -53,7 +55,7 @@ export default {
   <Searchbar />
 
   <!-- 動態牆 -->
-  <ul>
+  <ul v-if="posts.length">
     <li
       v-for="post in posts"
       :key="post._id"
@@ -85,4 +87,5 @@ export default {
       </div>
     </li>
   </ul>
+  <NoPost v-else />
 </template>

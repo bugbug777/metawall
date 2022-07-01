@@ -1,0 +1,28 @@
+.trafic-light {
+  display: flex;
+  align-items: center;
+  &::before {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border: 1px solid #707070;
+    border-radius: 50%;
+    background-color: #DE4B63;
+  }
+  &::after {
+    content: '';
+    width: 9px;
+    height: 9px;
+    border: 1px solid #707070;
+    border-radius: 50%;
+    background-color: #83C51D;
+  }
+  &-yellow {
+    width: 9px;
+    height: 9px;
+    border: 1px solid #707070;
+    border-radius: 50%;
+    background-color: #FAA722;
+    margin: 0 6px;
+  }
+}

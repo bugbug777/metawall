@@ -1,6 +1,7 @@
 <script>
 import Searchbar from '@/components/SearchbarComponent.vue';
 import Commentbar from '@/components/CommentbarComponent.vue';
+import NoPost from '@/components/NoPostComponent.vue';
 import { inject, onMounted, ref } from 'vue';
 import userStore from '@/stores/user';
 import statusStore from '@/stores/status';
@@ -10,6 +11,7 @@ export default {
   components: {
     Searchbar,
     Commentbar,
+    NoPost,
   },
   setup() {
     const axios = inject('axios');
@@ -23,14 +25,12 @@ export default {
     const getPosts = () => {
       const api = `${apiBase}/posts`;
       status.isLoading = true;
-      axios
-        .get(api)
-        .then((res) => {
-          if (res.data.status) {
-            posts.value = res.data.posts;
-            status.isLoading = false;
-          }
-        });
+      axios.get(api).then((res) => {
+        if (res.data.status) {
+          posts.value = res.data.posts;
+          status.isLoading = false;
+        }
+      });
     };
     onMounted(() => {
       getPosts();
@@ -60,13 +60,16 @@ export default {
     // 新增留言
     const addComment = ({ postId, content }) => {
       const api = `${apiBase}/posts/${postId}/comment`;
-      axios.post(api, { content }).then((res) => {
-        if (res.data.status) {
-          getPosts();
-        }
-      }).catch((err) => {
-        if (!err.response.data.status);
-      });
+      axios
+        .post(api, { content })
+        .then((res) => {
+          if (res.data.status) {
+            getPosts();
+          }
+        })
+        .catch((err) => {
+          if (!err.response.data.status);
+        });
     };
 
     // 時間格式化
@@ -87,14 +90,13 @@ export default {
   <!-- 功能列 -->
   <Searchbar />
   <!-- 動態牆 -->
-  <ul>
+  <ul v-if="posts.length">
     <li
       v-for="post in posts"
       :key="post._id"
       class="card card-shadow-2 | rounded-8 border-2 border-dark | mb-4"
     >
       <div class="card-body | p-6 pb-2">
-        <!-- 貼文內容 -->
         <div class="d-flex | mb-4">
           <img
             :src="post.user.avatar"
@@ -117,7 +119,6 @@ export default {
         </p>
         <img v-if="post.imageUrl" :src="post.imageUrl" alt="photo" class="card-img | mb-4" />
 
-        <!-- 按讚數 -->
         <div class="d-flex align-items-center | mb-4">
           <button @click="toogleLike(post._id, post.likes)" type="button" class="me-2">
             <i class="d-flex align-items-center bi bi-hand-thumbs-up | fs-5 text-primary"></i>
@@ -128,7 +129,6 @@ export default {
           <span v-else class="font-baloo">{{ post.likes.length }}</span>
         </div>
 
-        <!-- 留言區 -->
         <div class="d-flex align-items-center | mb-5">
           <img
             :src="user.avatar"
@@ -168,4 +168,5 @@ export default {
       </div>
     </li>
   </ul>
+  <NoPost v-else />
 </template>
