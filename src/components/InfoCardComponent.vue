@@ -7,7 +7,7 @@ export default {
   setup() {
     const route = useRoute();
     const axios = inject('axios');
-    const apiBase = 'http://localhost:3000';
+    const apiBase = process.env.VUE_APP_API_BASE;
     const { id } = route.params;
     const user = userStore();
     const followingUser = ref({});

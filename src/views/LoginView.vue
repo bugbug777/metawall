@@ -14,7 +14,7 @@ export default {
     const isVerified = ref(true);
 
     const login = async () => {
-      const api = 'http://localhost:3000/users/sign_in';
+      const api = `${process.env.VUE_APP_API_BASE}/users/sign_in`;
       try {
         const res = await axios.post(api, user);
         localStorage.setItem('jwt', res.data.user.token);

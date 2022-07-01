@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 export default {
   setup() {
     const axios = inject('axios');
-    const apiBase = 'http://localhost:3000';
+    const apiBase = process.env.VUE_APP_API_BASE;
     const followingList = ref([]);
 
     // 取得追蹤名單

@@ -15,7 +15,7 @@ export default {
     const isRegistered = ref(false);
 
     const register = async () => {
-      const api = 'http://localhost:3000/users/sign_up';
+      const api = `${process.env.VUE_APP_API_BASE}/users/sign_up`;
       try {
         await axios.post(api, user.value);
         successAlert('註冊成功！').then(() => router.push('/login'));

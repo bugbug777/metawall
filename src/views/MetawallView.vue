@@ -37,7 +37,7 @@ export default {
     const user = userStore();
 
     const checkAuth = () => {
-      const api = 'http://localhost:3000/users/check';
+      const api = `${process.env.VUE_APP_API_BASE}/users/check`;
       axios
         .get(api)
         .then((res) => {

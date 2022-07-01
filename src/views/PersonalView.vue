@@ -14,12 +14,13 @@ export default {
   },
   setup() {
     const axios = inject('axios');
+    const apiBase = process.env.VUE_APP_API_BASE;
     const posts = ref([]);
     const route = useRoute();
     const { id } = route.params;
 
     const getPosts = () => {
-      const api = `http://localhost:3000/posts/user/${id}`;
+      const api = `${apiBase}/posts/user/${id}`;
       axios
         .get(api)
         .then((res) => {

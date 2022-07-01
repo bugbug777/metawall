@@ -7,7 +7,7 @@ export default {
   setup() {
     const axios = inject('axios');
     const router = useRouter();
-    const apiBase = 'http://localhost:3000';
+    const apiBase = process.env.VUE_APP_API_BASE;
     const user = ref({});
 
     // 取得個人資料

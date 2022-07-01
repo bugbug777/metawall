@@ -12,11 +12,12 @@ export default {
     const axios = inject('axios');
     const token = localStorage.getItem('jwt');
     const user = userStore();
+    const apiBase = process.env.VUE_APP_API_BASE;
     const posts = ref([]);
 
     // 取得所有貼文
     const getPosts = () => {
-      const api = 'http://localhost:3000/posts';
+      const api = `${apiBase}/posts`;
       axios
         .get(api)
         .then((res) => {
@@ -42,7 +43,7 @@ export default {
         method = 'post';
         path = 'like';
       }
-      const api = `http://localhost:3000/posts/${postId}/${path}`;
+      const api = `${apiBase}/posts/${postId}/${path}`;
       axios[method](api).then((res) => {
         if (res.data.status) {
           getPosts();
@@ -53,7 +54,7 @@ export default {
     // 新增留言
     const commentMsg = ref('');
     const addComment = (postId) => {
-      const api = `http://localhost:3000/posts/${postId}/comment`;
+      const api = `${apiBase}/posts/${postId}/comment`;
       axios.post(api, { content: commentMsg.value }).then((res) => {
         if (res.data.status) {
           commentMsg.value = '';

@@ -7,7 +7,7 @@ export default {
   setup() {
     const axios = inject('axios');
     const route = useRoute();
-    const apiBase = 'http://localhost:3000';
+    const apiBase = process.env.VUE_APP_API_BASE;
     const post = ref([]);
 
     // 取得所有貼文
