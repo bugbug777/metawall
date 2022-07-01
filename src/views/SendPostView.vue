@@ -9,7 +9,7 @@ export default {
     const router = useRouter();
     const apiBase = process.env.VUE_APP_API_BASE;
     const post = ref({
-      content: 'The post is created by Sihle',
+      content: '',
       imageUrl: '',
     });
 

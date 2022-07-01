@@ -65,7 +65,6 @@ export default {
     const updatePassword = async () => {
       const api = `${apiBase}/users/updatePassword`;
       try {
-        console.log(userPassword.value);
         await axios.post(api, userPassword.value);
         successAlert('個人資料更新成功！').then(() => {
           localStorage.removeItem('jwt');
