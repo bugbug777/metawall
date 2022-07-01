@@ -23,7 +23,7 @@ const routes = [
       },
       {
         path: 'post',
-        component: () => import('../views/PostView.vue'),
+        component: () => import('../views/SendPostView.vue'),
       },
       {
         path: 'following',

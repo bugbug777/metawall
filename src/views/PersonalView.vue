@@ -1,8 +1,11 @@
 <script>
-import { inject, onMounted, ref } from 'vue';
+import {
+  inject, ref, onMounted,
+} from 'vue';
 import { useRoute } from 'vue-router';
 import Searchbar from '@/components/SearchbarComponent.vue';
 import InfoCard from '@/components/InfoCardComponent.vue';
+import dayjs from 'dayjs';
 
 export default {
   components: {
@@ -28,12 +31,16 @@ export default {
           console.log(err);
         });
     };
-
     onMounted(() => {
       getPosts();
     });
+
+    // 時間格式化
+    const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
+
     return {
       posts,
+      datetimeFormatter,
     };
   },
 };
@@ -67,7 +74,7 @@ export default {
               >{{ post.user.name }}</router-link
             >
             <time :datetime="post.createdAt" class="d-block | fs-8 text-secondary lh-16"
-              >{{ post.createdAt }}</time
+              >{{ datetimeFormatter(post.createdAt) }}</time
             >
           </h5>
         </div>
