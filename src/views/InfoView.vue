@@ -140,8 +140,9 @@ export default {
       aria-labelledby="profile-tab"
     >
       <div class="d-flex flex-column align-items-center mb-3">
-        <img class="mw-107 border rounded-circle border-2 border-dark |
-        mb-4" :src="user.avatar" alt="預設大頭貼" />
+        <div class="mw-107 ratio ratio-1x1 | mb-4">
+          <img class="border rounded-circle border-2 border-dark" :src="user.avatar" alt="預設大頭貼" />
+        </div>
 
         <label
           class="btn btn-dark | rounded-0 | text-white | py-1 px-6 mb-3"
