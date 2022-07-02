@@ -9,14 +9,14 @@ export default {
   setup() {
     const route = useRoute();
     const status = statusStore();
-    const post = ref([]);
+    const post = ref({});
+    const postId = route.params.id;
 
     // 取得所有貼文
     const getPost = async () => {
-      const { id } = route.params;
       status.isLoading = true;
       try {
-        const res = await request(`/posts/${id}`, 'get');
+        const res = await request(`/posts/${postId}`, 'get');
         post.value = res.data.post;
         status.isLoading = false;
       } catch (error) {

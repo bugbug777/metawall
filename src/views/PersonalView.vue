@@ -1,6 +1,6 @@
 <script>
-import Searchbar from '@/components/SearchbarComponent.vue';
 import InfoCard from '@/components/InfoCardComponent.vue';
+import Searchbar from '@/components/SearchbarComponent.vue';
 import NoPost from '@/components/NoPostComponent.vue';
 
 import { ref, onMounted } from 'vue';
