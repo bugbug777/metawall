@@ -16,13 +16,14 @@
 <script>
 import VueLoading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/vue-loading.css';
+import Swal from 'sweetalert2';
+
 import Navbar from '@/components/NavbarComponent.vue';
 import Sidebar from '@/components/SidebarComponent.vue';
-import { inject } from 'vue';
 import { useRouter } from 'vue-router';
 import userStore from '@/stores/user';
 import statusStore from '@/stores/status';
-import Swal from 'sweetalert2';
+import request from '@/utils/axios';
 
 export default {
   components: {
@@ -32,38 +33,29 @@ export default {
   },
   setup() {
     const router = useRouter();
-    const axios = inject('axios');
-    const token = localStorage.getItem('jwt');
-    if (!token) router.push('/login');
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     const status = statusStore();
 
     // 驗證後，取得 user 暱稱、大頭貼、_id 方便其他頁面使用
     const user = userStore();
-    const checkAuth = () => {
-      const api = `${process.env.VUE_APP_API_BASE}/users/check`;
-      axios
-        .get(api)
-        .then((res) => {
-          if (res.data.status) {
-            const { _id, name, avatar } = res.data.user;
-            user.id = _id;
-            user.name = name;
-            user.avatar = avatar;
-          }
-        })
-        .catch((err) => {
-          if (!err.response.data.status) {
-            Swal.fire({
-              icon: 'error',
-              text: '您尚未登入！',
-              timer: 1500,
-              showConfirmButton: false,
-            }).then(() => {
-              router.push('/login');
-            });
-          }
-        });
+    const checkAuth = async () => {
+      try {
+        const res = await request('/users/check', 'get');
+        const { _id, name, avatar } = res.data.user;
+        user.id = _id;
+        user.name = name;
+        user.avatar = avatar;
+      } catch (error) {
+        if (!error.response.data.status) {
+          Swal.fire({
+            icon: 'error',
+            text: '您尚未登入！',
+            timer: 1500,
+            showConfirmButton: false,
+          }).then(() => {
+            router.push('/login');
+          });
+        }
+      }
     };
     checkAuth();
 

@@ -1,24 +1,23 @@
 <script>
-import { inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import dayjs from 'dayjs';
 import statusStore from '@/stores/status';
+import request from '@/utils/axios';
+import { timeFilter } from '@/utils/dayjs';
 
 export default {
   setup() {
-    const axios = inject('axios');
     const route = useRoute();
-    const apiBase = process.env.VUE_APP_API_BASE;
     const status = statusStore();
     const post = ref([]);
 
     // 取得所有貼文
     const getPost = async () => {
       const { id } = route.params;
-      const api = `${apiBase}/posts/${id}`;
       status.isLoading = true;
       try {
-        post.value = await axios.get(api).then((res) => res.data.post);
+        const res = await request(`/posts/${id}`, 'get');
+        post.value = res.data.post;
         status.isLoading = false;
       } catch (error) {
         console.log(error);
@@ -26,12 +25,9 @@ export default {
     };
     onMounted(() => getPost());
 
-    // 時間格式化
-    const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
-
     return {
       post,
-      datetimeFormatter,
+      timeFilter,
     };
   },
 };
@@ -54,14 +50,20 @@ export default {
             >{{ post.user?.name }}</router-link
           >
           <time :datetime="post.createdAt" class="d-block | fs-8 text-secondary lh-16">{{
-            datetimeFormatter(post.createdAt)
+            timeFilter(post.createdAt)
           }}</time>
         </h5>
       </div>
       <p class="card-text | mb-4">
         {{ post.content }}
       </p>
-      <img v-if="post.imageUrl" :src="post.imageUrl" alt="photo" class="card-img | mb-4" />
+      <div v-if="post.imageUrl" class="ratio ratio-16x9 | mb-4">
+          <img
+            :src="post.imageUrl"
+            alt="photo"
+            class="image-control | border rounded-8 border-2 border-dark"
+          />
+        </div>
     </div>
   </div>
 </template>

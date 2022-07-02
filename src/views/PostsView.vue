@@ -2,10 +2,12 @@
 import Searchbar from '@/components/SearchbarComponent.vue';
 import Commentbar from '@/components/CommentbarComponent.vue';
 import NoPost from '@/components/NoPostComponent.vue';
-import { inject, onMounted, ref } from 'vue';
+
+import { onMounted, ref } from 'vue';
 import userStore from '@/stores/user';
 import statusStore from '@/stores/status';
-import dayjs from 'dayjs';
+import request from '@/utils/axios';
+import { timeFilter } from '@/utils/dayjs';
 
 export default {
   components: {
@@ -14,23 +16,18 @@ export default {
     NoPost,
   },
   setup() {
-    const axios = inject('axios');
     const token = localStorage.getItem('jwt');
     const status = statusStore();
     const user = userStore();
-    const apiBase = process.env.VUE_APP_API_BASE;
     const posts = ref([]);
     const msg = ref('');
 
     // 取得所有貼文
     const getPosts = async (keyword, sort = -1) => {
-      let api = '';
-      api = `${apiBase}/posts?sort=${sort}`;
-      if (keyword) api = `${apiBase}/posts?sort=${sort}&keyword=${keyword}`;
-
       status.isLoading = true;
       try {
-        posts.value = await axios.get(api).then((res) => res.data.posts);
+        const res = await request('/posts', 'get', { sort, keyword });
+        posts.value = res.data.posts;
         if (!posts.value.length && keyword) msg.value = '沒有找到匹配的貼文！';
         status.isLoading = false;
       } catch (error) {
@@ -54,9 +51,9 @@ export default {
         method = 'post';
         path = 'like';
       }
-      const api = `${apiBase}/posts/${postId}/${path}`;
+      const url = `/posts/${postId}/${path}`;
       try {
-        await axios[method](api);
+        await request(url, method, userId);
         getPosts();
       } catch (error) {
         console.log(error);
@@ -65,17 +62,14 @@ export default {
 
     // 新增留言
     const addComment = async ({ postId, content }) => {
-      const api = `${apiBase}/posts/${postId}/comment`;
+      const url = `/posts/${postId}/comment`;
       try {
-        await axios.post(api, { content });
+        await request(url, 'post', { content });
         getPosts();
       } catch (error) {
         console.log(error);
       }
     };
-
-    // 時間格式化
-    const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
 
     return {
       user,
@@ -83,7 +77,7 @@ export default {
       getPosts,
       toogleLike,
       addComment,
-      datetimeFormatter,
+      timeFilter,
       msg,
     };
   },
@@ -114,7 +108,7 @@ export default {
               >{{ post.user.name }}</router-link
             >
             <time :datetime="post.createdAt" class="d-block | fs-8 text-secondary lh-16">{{
-              datetimeFormatter(post.createdAt)
+              timeFilter(post.createdAt)
             }}</time>
           </h5>
         </div>
@@ -167,7 +161,7 @@ export default {
                     >{{ comment.user.name }}</router-link
                   >
                   <time :datetime="comment.createdAt" class="d-block text-secondary fs-8 lh-16">{{
-                    datetimeFormatter(comment.createdAt)
+                    timeFilter(comment.createdAt)
                   }}</time>
                 </h5>
               </div>

@@ -1,13 +1,13 @@
 <script>
-import {
-  inject, ref, onMounted,
-} from 'vue';
-import { useRoute } from 'vue-router';
 import Searchbar from '@/components/SearchbarComponent.vue';
 import InfoCard from '@/components/InfoCardComponent.vue';
 import NoPost from '@/components/NoPostComponent.vue';
-import dayjs from 'dayjs';
+
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import statusStore from '@/stores/status';
+import request from '@/utils/axios';
+import { timeFilter } from '@/utils/dayjs';
 
 export default {
   components: {
@@ -16,18 +16,16 @@ export default {
     NoPost,
   },
   setup() {
-    const axios = inject('axios');
-    const apiBase = process.env.VUE_APP_API_BASE;
     const status = statusStore();
     const posts = ref([]);
     const route = useRoute();
     const { id } = route.params;
 
     const getPosts = async () => {
-      const api = `${apiBase}/posts/user/${id}`;
       status.isLoading = true;
       try {
-        posts.value = await axios.get(api).then((res) => res.data.posts);
+        const res = await request(`/posts/user/${id}`, 'get');
+        posts.value = res.data.posts;
         status.isLoading = false;
       } catch (error) {
         console.log(error);
@@ -37,12 +35,10 @@ export default {
       getPosts();
     });
 
-    // 時間格式化
-    const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
-
     return {
       posts,
-      datetimeFormatter,
+      getPosts,
+      timeFilter,
     };
   },
 };
@@ -52,7 +48,7 @@ export default {
   <!-- 個人資訊卡 -->
   <InfoCard />
   <!-- 功能列 -->
-  <Searchbar />
+  <Searchbar @sort-posts="getPosts" @search-keyword="getPosts" />
 
   <!-- 動態牆 -->
   <ul v-if="posts.length">
@@ -76,14 +72,20 @@ export default {
               >{{ post.user.name }}</router-link
             >
             <time :datetime="post.createdAt" class="d-block | fs-8 text-secondary lh-16"
-              >{{ datetimeFormatter(post.createdAt) }}</time
+              >{{ timeFilter(post.createdAt) }}</time
             >
           </h5>
         </div>
         <p class="card-text | mb-4">
           {{ post.content }}
         </p>
-        <img v-if="post.imageUrl" :src="post.imageUrl" alt="photo" class="card-img | mb-4" />
+        <div v-if="post.imageUrl" class="ratio ratio-16x9 | mb-4">
+          <img
+            :src="post.imageUrl"
+            alt="photo"
+            class="image-control | border rounded-8 border-2 border-dark"
+          />
+        </div>
       </div>
     </li>
   </ul>

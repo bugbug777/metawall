@@ -1,11 +1,11 @@
 <script>
-import { ref, inject } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import request from '@/utils/axios';
 import { successAlert, errorAlert } from '@/utils/sweetalert';
 
 export default {
   setup() {
-    const axios = inject('axios');
     const router = useRouter();
     const user = ref({
       name: '',
@@ -15,9 +15,8 @@ export default {
     const isRegistered = ref(false);
 
     const register = async () => {
-      const api = `${process.env.VUE_APP_API_BASE}/users/sign_up`;
       try {
-        await axios.post(api, user.value);
+        await request('/users/sign_up', 'post', user.value);
         successAlert('註冊成功！').then(() => router.push('/login'));
       } catch (error) {
         if (error.response.data.message === '該電子信箱已被使用者註冊！') {
@@ -59,7 +58,7 @@ export default {
                 <label for="name" class="form-label d-none"></label>
                 <VField
                   name="name"
-                  rules="required|min:2"
+                  rules="required|min:2|alpha_num"
                   v-model="user.name"
                   class="form-control rounded-0 border-2 border-dark | font-noto | py-4 px-6 mb-1"
                   :class="{ 'is-invalid': errors.name }"
@@ -68,7 +67,7 @@ export default {
                   placeholder="暱稱"
                 />
                 <p v-if="errors.name" class="text-start text-danger | mt-1">
-                  暱稱至少 2 個字元以上
+                  {{ errors.name !== 'name 不能小於 2 個字元' ? '暱稱只能是英數字的組合' : '暱稱至少 2 個字元以上' }}
                 </p>
               </div>
               <div class="mb-4">

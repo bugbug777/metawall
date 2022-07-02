@@ -1,21 +1,23 @@
 <script>
-import { inject, onMounted, ref } from 'vue';
-import dayjs from 'dayjs';
+import { onMounted, ref } from 'vue';
 import statusStore from '@/stores/status';
+import request from '@/utils/axios';
+import { timeFilter, toNow } from '@/utils/dayjs';
 
 export default {
   setup() {
-    const axios = inject('axios');
-    const apiBase = process.env.VUE_APP_API_BASE;
+    // const axios = inject('axios');
+    // const apiBase = process.env.VUE_APP_API_BASE;
     const status = statusStore();
     const followingList = ref([]);
 
     // 取得追蹤名單
     const getUsers = async () => {
-      const api = `${apiBase}/users/following`;
+      // const api = `${apiBase}/users/following`;
       status.isLoading = true;
       try {
-        const res = await axios.get(api);
+        // const res = await axios.get(api);
+        const res = await request('/users/following', 'get');
         followingList.value = res.data.users;
         status.isLoading = false;
       } catch (error) {
@@ -26,16 +28,9 @@ export default {
       getUsers();
     });
 
-    // 時間格式化
-    const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
-    const toNow = (d) => {
-      const hours = (dayjs().diff(dayjs(d), 'h'));
-      return hours;
-    };
-
     return {
-      datetimeFormatter,
       followingList,
+      timeFilter,
       toNow,
     };
   },
@@ -44,8 +39,8 @@ export default {
 
 <template>
   <div
-    class="overlapping | border border-2 border-dark | text-center font-monospace |
-    bg-white | py-5 mb-4"
+    class="overlapping | border border-2 border-dark | text-center
+    font-monospace | bg-white | py-5 mb-4"
   >
     <h2 class="fs-5">追蹤名單</h2>
   </div>
@@ -57,11 +52,7 @@ export default {
       class="card-shadow-2 | border rounded-8 border-2 border-dark | bg-white | p-4 mb-4"
     >
       <div class="d-flex align-items-center">
-        <img
-          :src="item.user.avatar"
-          alt="headshot"
-          class="image-size-40 rounded-circle | me-3"
-        />
+        <img :src="item.user.avatar" alt="headshot" class="image-size-40 rounded-circle | me-3" />
         <div class="flex-grow-1">
           <h3>
             <router-link
@@ -72,9 +63,9 @@ export default {
           </h3>
           <div class="d-flex justify-content-between">
             <p class="fs-7 text-secondary lh-14">
-              追蹤時間：<time :datetime="item.createdAt">{{ datetimeFormatter(item.createdAt) }}</time>
+              追蹤時間：<time :datetime="item.createdAt">{{ timeFilter(item.createdAt) }}</time>
             </p>
-            <p class="fs-7 lh-14">{{ `您已追蹤 ${toNow(item.createdAt)} 小時！` }}</p>
+            <p class="fs-7 lh-14">{{ `您已追蹤 ${toNow(item.createdAt)}！` }}</p>
           </div>
         </div>
       </div>

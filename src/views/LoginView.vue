@@ -1,11 +1,11 @@
 <script>
-import { inject, ref, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
+import request from '@/utils/axios';
 import { successAlert } from '../utils/sweetalert';
 
 export default {
   setup() {
-    const axios = inject('axios');
     const router = useRouter();
     const user = reactive({
       email: '',
@@ -14,9 +14,8 @@ export default {
     const isVerified = ref(true);
 
     const login = async () => {
-      const api = `${process.env.VUE_APP_API_BASE}/users/sign_in`;
       try {
-        const res = await axios.post(api, user);
+        const res = await request('/users/sign_in', 'post', user);
         localStorage.setItem('jwt', res.data.user.token);
         successAlert('登入成功！').then(() => router.push('/posts'));
       } catch (error) {

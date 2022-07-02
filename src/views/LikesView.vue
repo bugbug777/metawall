@@ -1,36 +1,33 @@
 <script>
-import { inject, onMounted, ref } from 'vue';
-import dayjs from 'dayjs';
+import { onMounted, ref } from 'vue';
 import statusStore from '@/stores/status';
+import request from '@/utils/axios';
+import { timeFilter } from '@/utils/dayjs';
 
 export default {
   setup() {
-    const axios = inject('axios');
-    const apiBase = process.env.VUE_APP_API_BASE;
     const status = statusStore();
     const posts = ref([]);
 
     // 取得所有按讚貼文
     const getLikePosts = async () => {
-      const api = `${apiBase}/users/getLikeList`;
       status.isLoading = true;
       try {
-        posts.value = await axios.get(api).then((res) => res.data.posts);
+        const res = await request('/users/getLikeList', 'get');
+        posts.value = res.data.posts;
         status.isLoading = false;
       } catch (error) {
         console.log(error);
       }
     };
-    const datetimeFormatter = (d) => dayjs(d).format('YYYY/MM/DD HH:MM');
     onMounted(() => {
       getLikePosts();
     });
 
     // 取消讚
     const cancelLike = async (postId) => {
-      const api = `${apiBase}/posts/${postId}/unlike`;
       try {
-        await axios.delete(api);
+        await request(`/posts/${postId}/unlike`, 'delete');
         getLikePosts();
       } catch (error) {
         console.log(error);
@@ -39,7 +36,7 @@ export default {
 
     return {
       posts,
-      datetimeFormatter,
+      timeFilter,
       cancelLike,
     };
   },
@@ -74,7 +71,7 @@ export default {
               </h3>
               <p class="fs-7 text-secondary lh-14">
                 發文時間：<time :datetime="post.createdAt">{{
-                  datetimeFormatter(post.createdAt)
+                  timeFilter(post.createdAt)
                 }}</time>
               </p>
             </div>

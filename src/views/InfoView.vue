@@ -1,23 +1,21 @@
 <script>
-import { inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { successAlert, errorAlert } from '@/utils/sweetalert';
 import statusStore from '@/stores/status';
+import request from '@/utils/axios';
+import { successAlert, errorAlert } from '@/utils/sweetalert';
 
 export default {
   setup() {
-    const axios = inject('axios');
     const router = useRouter();
     const status = statusStore();
-    const apiBase = process.env.VUE_APP_API_BASE;
     const user = ref({});
 
     // 取得個人資料
     const getProfile = async () => {
-      const api = `${apiBase}/users/profile`;
       status.isLoading = true;
       try {
-        const res = await axios.get(api);
+        const res = await request('/users/profile', 'get');
         user.value = res.data.user;
         status.isLoading = false;
       } catch (error) {
@@ -31,11 +29,10 @@ export default {
     // 上傳大頭貼
     const isFailed = ref(false);
     const uploadImage = async (e) => {
-      const api = `${apiBase}/upload?type="avatar"`;
       const formData = new FormData();
       formData.append('image', e.target.files[0]);
       try {
-        const res = await axios.post(api, formData);
+        const res = await request('/upload?type="avatar"', 'post', formData);
         successAlert('上傳成功！');
         user.value.avatar = res.data.imageUrl;
       } catch (error) {
@@ -46,12 +43,9 @@ export default {
 
     // 更新個人資料
     const updateProfile = async () => {
-      const api = `${apiBase}/users/profile`;
       try {
-        await axios.patch(api, user.value);
-        successAlert('個人資料更新成功！').then(() => {
-          getProfile();
-        });
+        await request('/users/profile', 'patch', user.value);
+        successAlert('個人資料更新成功！').then(() => getProfile());
       } catch (error) {
         errorAlert();
       }
@@ -63,10 +57,9 @@ export default {
       confirmedPassword: '',
     });
     const updatePassword = async () => {
-      const api = `${apiBase}/users/updatePassword`;
       try {
-        await axios.post(api, userPassword.value);
-        successAlert('個人資料更新成功！').then(() => {
+        await request('/users/updatePassword', 'post', userPassword.value);
+        successAlert('密碼重設成功，請重新登入！').then(() => {
           localStorage.removeItem('jwt');
           router.push('/login');
         });

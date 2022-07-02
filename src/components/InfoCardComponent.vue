@@ -1,23 +1,21 @@
 <script>
-import { inject, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import userStore from '@/stores/user';
+import request from '@/utils/axios';
 
 export default {
   setup() {
     const route = useRoute();
-    const axios = inject('axios');
-    const apiBase = process.env.VUE_APP_API_BASE;
-    const { id } = route.params;
+    const userId = route.params.id;
     const user = userStore();
     const followingUser = ref({});
 
     // 取得 Profile
     const isFollowing = ref(false);
     const getProfile = async () => {
-      const api = `${apiBase}/users/profile/${id}`;
       try {
-        const res = await axios.get(api);
+        const res = await request(`/users/profile/${userId}`, 'get');
         followingUser.value = res.data.user;
         isFollowing.value = res.data.user.followers.some((item) => item.user === user.id);
       } catch (error) {
@@ -38,9 +36,8 @@ export default {
         path = 'unfollow';
       }
 
-      const api = `${apiBase}/users/${id}/${path}`;
       try {
-        await axios[method](api);
+        await request(`/users/${userId}/${path}`, method);
         getProfile();
       } catch (error) {
         console.log(error);
