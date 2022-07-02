@@ -3,7 +3,7 @@ import InfoCard from '@/components/InfoCardComponent.vue';
 import Searchbar from '@/components/SearchbarComponent.vue';
 import NoPost from '@/components/NoPostComponent.vue';
 
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import statusStore from '@/stores/status';
 import request from '@/utils/axios';
@@ -19,18 +19,27 @@ export default {
     const status = statusStore();
     const posts = ref([]);
     const route = useRoute();
-    const { id } = route.params;
+    let userId = route.params.id;
 
     const getPosts = async () => {
       status.isLoading = true;
       try {
-        const res = await request(`/posts/user/${id}`, 'get');
+        const res = await request(`/posts/user/${userId}`, 'get');
         posts.value = res.data.posts;
         status.isLoading = false;
       } catch (error) {
         console.log(error);
       }
     };
+
+    // newValue 有值的時候才呼叫 getPosts
+    watch(() => route.params.id, (newValue) => {
+      if (newValue) {
+        userId = newValue;
+        getPosts();
+      }
+    });
+
     onMounted(() => {
       getPosts();
     });
@@ -71,9 +80,9 @@ export default {
               :to="`/posts/user/${post.user._id}`"
               >{{ post.user.name }}</router-link
             >
-            <time :datetime="post.createdAt" class="d-block | fs-8 text-secondary lh-16"
-              >{{ timeFilter(post.createdAt) }}</time
-            >
+            <time :datetime="post.createdAt" class="d-block | fs-8 text-secondary lh-16">{{
+              timeFilter(post.createdAt)
+            }}</time>
           </h5>
         </div>
         <p class="card-text | mb-4">

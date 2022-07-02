@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import userStore from '@/stores/user';
 import request from '@/utils/axios';
@@ -7,7 +7,7 @@ import request from '@/utils/axios';
 export default {
   setup() {
     const route = useRoute();
-    const userId = route.params.id;
+    let userId = route.params.id;
     const user = userStore();
     const followingUser = ref({});
 
@@ -22,6 +22,15 @@ export default {
         console.log(error);
       }
     };
+
+    // newValue 有值的時候才呼叫 getProfile
+    watch(() => route.params.id, (newValue) => {
+      if (newValue) {
+        userId = newValue;
+        getProfile();
+      }
+    });
+
     onMounted(() => {
       getProfile();
     });
