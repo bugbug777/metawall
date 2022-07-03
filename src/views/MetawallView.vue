@@ -1,14 +1,20 @@
 <template>
   <VueLoading v-model:active="status.isLoading" />
   <Navbar />
-  <div class="mw-869 | container | pt-12">
-    <div class="d-flex justify-content-between">
+  <div class="mw-869 | container | pt-4 pt-md-12">
+    <!-- 平板、桌機顯示 -->
+    <div class="d-none | d-md-flex justify-content-between">
       <div style="width: 61.3%">
         <router-view />
       </div>
       <div style="width: 35.5%">
         <Sidebar />
       </div>
+    </div>
+    <!-- 手機版顯示 -->
+    <div class="d-md-none">
+      <router-view />
+      <!-- <Sidebar /> -->
     </div>
   </div>
 </template>

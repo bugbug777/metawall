@@ -37,7 +37,7 @@ export default {
   <div class="d-flex mb-4">
     <div class="dropdown me-3">
       <button
-        class="w-156 | d-flex justify-content-between align-items-center |
+        class="w-md-156 | d-flex justify-content-between align-items-center |
         dropdown-toggle | btn btn-white | border rounded-0 border-2 border-dark | fs-6 | py-3 px-4"
         type="button"
         id="dropdownMenuButton1"

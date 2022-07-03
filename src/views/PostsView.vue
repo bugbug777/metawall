@@ -123,21 +123,24 @@ export default {
           />
         </div>
 
-        <div class="d-flex align-items-center | mb-4">
-          <button @click="toogleLike(post._id, post.likes)" type="button" class="me-2">
+        <div class="d-flex flex-row-reverse flex-sm-row align-items-center | mb-4">
+          <span v-if="post.likes.length !== 0" class="font-baloo | me-4">
+            {{ post.likes.length }}</span>
+          <button @click="toogleLike(post._id, post.likes)" type="button" class="me-sm-2">
             <i class="d-flex align-items-center bi bi-hand-thumbs-up | fs-5 text-primary"></i>
           </button>
           <span v-if="post.likes.length === 0" class="font-baloo text-secondary"
             >成為第一個按讚的朋友</span
           >
-          <span v-else class="font-baloo">{{ post.likes.length }}</span>
+          <span v-else class="d-none d-sm-block | font-baloo">{{ post.likes.length }}</span>
         </div>
 
-        <div class="d-flex align-items-center | mb-5">
+        <div class="d-sm-flex align-items-center | mb-5">
           <img
             :src="user.avatar"
             alt="avatar"
-            class="image-size-40 | border rounded-circle border-2 border-dark | me-2"
+            class="d-none d-sm-block image-size-40 | border rounded-circle
+            border-2 border-dark | me-2"
           />
           <Commentbar :post-id="post._id" @send-comment="addComment" />
         </div>

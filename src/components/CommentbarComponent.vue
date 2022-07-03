@@ -31,7 +31,7 @@ export default {
     />
     <button
       @click="sendComment"
-      class="btn btn-primary btn-hover-warning | rounded-0 border-2 border-dark | px-12"
+      class="btn btn-primary btn-hover-warning | rounded-0 border-2 border-dark | px-4 px-sm-12"
       type="button"
       id="button-addon2"
     >
