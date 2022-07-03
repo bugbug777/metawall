@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-  <nav class="border-bottom border-2 border-dark | bg-white">
+  <nav class="fixed-top | border-bottom border-2 border-dark | bg-white">
     <div class="mw-869 | container">
       <div class="d-flex justify-content-between align-items-center | py-3">
         <h1>

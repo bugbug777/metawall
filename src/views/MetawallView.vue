@@ -1,7 +1,8 @@
 <template>
   <VueLoading v-model:active="status.isLoading" />
   <Navbar />
-  <div class="mw-869 | container | pt-4 pt-md-12">
+  <!-- pt-4 pt-md-12 -->
+  <div class="mw-869 | container | mt-76 mt-md-110">
     <!-- 平板、桌機顯示 -->
     <div class="d-md-flex justify-content-between">
       <div class="w-md-60">

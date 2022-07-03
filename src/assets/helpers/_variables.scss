@@ -395,7 +395,9 @@ $spacers: (
   10: $spacer * 2.5,
   12: $spacer * 3,
   13: $spacer * 3.25,
-  70: 70px
+  70: 70px,
+  76: 76px,
+  110: 110px
 ) !default;
 
 $negative-spacers: if($enable-negative-margins, negativify-map($spacers), null) !default;
