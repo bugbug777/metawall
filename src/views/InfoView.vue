@@ -1,6 +1,7 @@
 <script>
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import userStore from '@/stores/user';
 import statusStore from '@/stores/status';
 import request from '@/utils/axios';
 import { successAlert, errorAlert } from '@/utils/sweetalert';
@@ -8,6 +9,7 @@ import { successAlert, errorAlert } from '@/utils/sweetalert';
 export default {
   setup() {
     const router = useRouter();
+    const globalUserState = userStore();
     const status = statusStore();
     const user = ref({});
 
@@ -44,7 +46,9 @@ export default {
     // 更新個人資料
     const updateProfile = async () => {
       try {
-        await request('/users/profile', 'patch', user.value);
+        const res = await request('/users/profile', 'patch', user.value);
+        globalUserState.name = res.data.user.name;
+        globalUserState.avatar = res.data.user.avatar;
         successAlert('個人資料更新成功！').then(() => getProfile());
       } catch (error) {
         errorAlert();
