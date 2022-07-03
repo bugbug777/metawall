@@ -1,13 +1,12 @@
 <script>
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import request from '@/utils/axios';
 import { successAlert, errorAlert } from '@/utils/sweetalert';
 
 export default {
   setup() {
-    const axios = inject('axios');
     const router = useRouter();
-    const apiBase = process.env.VUE_APP_API_BASE;
     const post = ref({
       content: '',
       imageUrl: '',
@@ -15,12 +14,9 @@ export default {
 
     // 送出貼文
     const sendPost = async () => {
-      const api = `${apiBase}/posts`;
       try {
-        await axios.post(api, post.value);
-        successAlert('成功發送貼文！').then(() => {
-          router.push('/posts');
-        });
+        await request('/posts', 'post', post.value);
+        successAlert('成功發送貼文！').then(() => router.push('/posts'));
       } catch (error) {
         console.log(error);
       }
@@ -30,15 +26,15 @@ export default {
     const isUploaded = ref(false);
     const isFailed = ref(false);
     const uploadImage = async (e) => {
-      const api = `${apiBase}/upload`;
       const formData = new FormData();
       formData.append('image', e.target.files[0]);
       try {
-        const res = await axios.post(api, formData);
-        successAlert('上傳成功！');
+        const res = await request('/upload', 'post', formData);
         isUploaded.value = true;
         post.value.imageUrl = res.data.imageUrl;
+        successAlert('上傳成功！');
       } catch (error) {
+        console.log(error);
         errorAlert('上傳失敗，請重新上傳圖片！');
         isFailed.value = true;
         setTimeout(() => {
@@ -84,12 +80,13 @@ export default {
           >上傳圖片
           <input @change="uploadImage" class="d-none" type="file" name="image" id="image" />
         </label>
-        <img
-          v-if="post.imageUrl"
-          :src="post.imageUrl"
-          alt="upload image"
-          class="card-img rounded-8 | mb-8"
-        />
+        <div v-if="post.imageUrl" class="ratio ratio-16x9 | mb-4">
+          <img
+            :src="post.imageUrl"
+            alt="photo"
+            class="image-control | border rounded-8 border-2 border-dark"
+          />
+        </div>
         <div v-if="isFailed" class="text-center text-danger | mb-4">
           圖片檔案過大，僅限 1mb 以下檔案<br />
           圖片格式錯誤，僅限 JPG、PNG 圖片
