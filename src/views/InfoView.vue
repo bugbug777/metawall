@@ -87,8 +87,8 @@ export default {
 
 <template>
   <div
-    class="overlapping | border border-2 border-dark | text-center font-monospace |
-    bg-white | py-5 mb-8"
+    class="overlapping | border border-2 border-dark | text-center
+    font-monospace | bg-white | py-5 mb-8"
   >
     <h2 class="fs-5">修改個人資料</h2>
   </div>
@@ -97,8 +97,8 @@ export default {
   <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
     <li class="nav-item | bg-white" role="presentation">
       <button
-        class="nav-link link-dark | border border-bottom-0 rounded-top-8 border-2
-        border-dark | px-6 active"
+        class="nav-link link-dark | border border-bottom-0 rounded-top-8
+        border-2 border-dark | px-6 active"
         id="profile-tab"
         data-bs-toggle="tab"
         data-bs-target="#profile"
@@ -112,8 +112,8 @@ export default {
     </li>
     <li class="nav-item | bg-white" role="presentation">
       <button
-        class="nav-link link-dark | border border-bottom-0 rounded-top-8 border-2
-        border-dark | px-6"
+        class="nav-link link-dark | border border-bottom-0 rounded-top-8
+        border-2 border-dark | px-6"
         id="password-tab"
         data-bs-toggle="tab"
         data-bs-target="#password"
@@ -138,12 +138,21 @@ export default {
     >
       <div class="d-flex flex-column align-items-center mb-3">
         <div class="mw-107 ratio ratio-1x1 | mb-4">
-          <img class="border rounded-circle border-2 border-dark" :src="user.avatar" alt="預設大頭貼" />
+          <img
+            v-if="user.avatar"
+            class="border rounded-circle border-2 border-dark"
+            :src="user.avatar"
+            alt="預設大頭貼"
+          />
+          <img
+            v-else
+            class="border rounded-circle border-2 border-dark"
+            src="@/assets/images/yellow_chicken.jpeg"
+            alt="avatar"
+          />
         </div>
 
-        <label
-          class="btn btn-dark | rounded-0 | text-white | py-1 px-6 mb-3"
-          for="image"
+        <label class="btn btn-dark | rounded-0 | text-white | py-1 px-6 mb-3" for="image"
           >上傳大頭照
           <input @change="uploadImage" class="d-none" type="file" name="image" id="image" />
         </label>
@@ -191,8 +200,8 @@ export default {
         </div>
         <button
           @click="updateProfile"
-          class="d-block w-100 | btn btn-shadow btn-warning btn-hover-primary | border
-          border-2 border-dark | py-4"
+          class="d-block w-100 | btn btn-shadow btn-warning
+          btn-hover-primary | border border-2 border-dark | py-4"
           type="button"
         >
           送出更新
@@ -225,8 +234,8 @@ export default {
         </div>
         <input
           @click="updatePassword"
-          class="d-block w-100 | btn btn-gray-2 | border border-2 border-gray-3 |
-          text-white lh-sm | py-4"
+          class="d-block w-100 | btn btn-gray-2 | border border-2
+          border-gray-3 | text-white lh-sm | py-4"
           type="button"
           value="重設密碼"
         />

@@ -47,8 +47,15 @@ export default {
             data-bs-offset="0, 8"
           >
             <img
+              v-if="user.avatar"
               class="image-size-1 border border-2 rounded-circle border-dark | me-2"
               :src="user.avatar"
+              alt="avatar"
+            />
+            <img
+              v-else
+              class="image-size-1 border border-2 rounded-circle border-dark | me-2"
+              src="@/assets/images/yellow_chicken.jpeg"
               alt="avatar"
             />
             <span class="font-azeret fw-bold text-dark | border-bottom border-2 border-dark | px-1"

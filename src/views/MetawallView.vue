@@ -11,11 +11,6 @@
         <Sidebar />
       </div>
     </div>
-    <!-- 手機版顯示 -->
-    <!-- <div class="d-md-none">
-      <router-view />
-      <Sidebar />
-    </div> -->
   </div>
 </template>
 

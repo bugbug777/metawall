@@ -68,8 +68,15 @@ export default {
   <div class="card card-overlapping rounded-8 border-0 | bg-white | mb-8">
     <div class="d-flex">
       <img
+        v-if="followingUser.avatar"
         class="mw-80 border rounded-start-8 border-2 border-dark"
         :src="followingUser.avatar"
+        alt="avatar"
+      />
+      <img
+        v-else
+        class="mw-80 border rounded-start-8 border-2 border-dark"
+        src="@/assets/images/yellow_chicken.jpeg"
         alt="avatar"
       />
       <div class="flex-grow-1 | border border-start-0 rounded-end-8 border-2 border-dark">
