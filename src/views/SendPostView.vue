@@ -1,12 +1,14 @@
 <script>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import statusStore from '@/stores/status';
 import request from '@/utils/axios';
 import { successAlert, errorAlert } from '@/utils/sweetalert';
 
 export default {
   setup() {
     const router = useRouter();
+    const status = statusStore();
     const post = ref({
       content: '',
       imageUrl: '',
@@ -42,6 +44,13 @@ export default {
         }, 5000);
       }
     };
+
+    onMounted(() => {
+      status.hideSidebar = true;
+    });
+    onUnmounted(() => {
+      status.hideSidebar = false;
+    });
 
     return {
       post,

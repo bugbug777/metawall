@@ -1,12 +1,15 @@
 <script>
 import userStore from '@/stores/user';
+import statusStore from '@/stores/status';
 
 export default {
   setup() {
     const user = userStore();
+    const status = statusStore();
 
     return {
       user,
+      status,
     };
   },
 };
@@ -23,11 +26,18 @@ export default {
     <ul>
       <li class="d-flex align-items-center mb-6">
         <img
+          v-if="user.avatar"
           class="image-size-2 | border rounded-circle border-2 border-dark me-4"
           :src="user.avatar"
           alt="avatar"
         />
-        <span class="fw-bold">{{ user.name }}</span>
+        <img
+            v-else
+            class="image-size-2 | border rounded-circle border-2 border-dark me-4"
+            src="@/assets/images/yellow_chicken.jpeg"
+            alt="avatar"
+          />
+        <span class="fw-bold">{{ user.name || 'Pikabu' }}</span>
       </li>
       <li class="mb-4">
         <router-link
@@ -58,7 +68,8 @@ export default {
     </ul>
   </div>
   <!-- 手機版顯示 -->
-  <div class="d-md-none fixed-bottom bottom-5 | mx-1">
+  <div class="d-md-none fixed-bottom bottom-5 | mx-1"
+  :class="{ 'hideSidebar':  status.hideSidebar}">
     <ul class="d-flex justify-content-between justify-content-sm-evenly | border rounded-32 border-3
     border-dark bg-gray-1 | py-2 px-12">
       <li>
@@ -100,3 +111,12 @@ export default {
     </ul>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.hideSidebar {
+  display: none;
+  @media (min-width: 768px) {
+    display: block;
+  }
+}
+</style>

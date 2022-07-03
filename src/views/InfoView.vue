@@ -1,5 +1,5 @@
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import userStore from '@/stores/user';
 import statusStore from '@/stores/status';
@@ -26,6 +26,10 @@ export default {
     };
     onMounted(() => {
       getProfile();
+      status.hideSidebar = true;
+    });
+    onUnmounted(() => {
+      status.hideSidebar = false;
     });
 
     // 上傳大頭貼
