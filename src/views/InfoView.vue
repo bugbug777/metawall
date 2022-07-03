@@ -91,9 +91,9 @@ export default {
 
   <!-- 分頁按鈕 -->
   <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
+    <li class="nav-item | bg-white" role="presentation">
       <button
-        class="nav-link tab-normal | border border-bottom-0 rounded-top-8 border-2
+        class="nav-link link-dark | border border-bottom-0 rounded-top-8 border-2
         border-dark | px-6 active"
         id="profile-tab"
         data-bs-toggle="tab"
@@ -106,9 +106,9 @@ export default {
         暱稱修改
       </button>
     </li>
-    <li class="nav-item" role="presentation">
+    <li class="nav-item | bg-white" role="presentation">
       <button
-        class="nav-link tab-normal | border border-bottom-0 rounded-top-8 border-2
+        class="nav-link link-dark | border border-bottom-0 rounded-top-8 border-2
         border-dark | px-6"
         id="password-tab"
         data-bs-toggle="tab"
