@@ -44,6 +44,7 @@ export default {
         user.id = _id;
         user.name = name;
         user.avatar = avatar;
+        router.push('/posts');
       } catch (error) {
         if (!error.response.data.status) {
           Swal.fire({
