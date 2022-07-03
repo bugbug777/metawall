@@ -62,33 +62,33 @@ export default {
         <div class="flex-grow-1">
           <div class="d-flex justify-content-between">
             <div>
-              <h3>
+              <h3 class="mb-1">
                 <router-link
                   class="d-block | link-dark hover-userlink | fw-bold fs-6 lh-base"
                   :to="`/posts/user/${post.user._id}`"
                   >{{ post.user.name }}</router-link
                 >
               </h3>
-              <p class="fs-7 text-secondary lh-14">
+              <p class="text-nowrap fs-7 text-secondary lh-14">
                 發文時間：<time :datetime="post.createdAt">{{
                   timeFilter(post.createdAt)
                 }}</time>
               </p>
             </div>
             <!-- 按讚、查看貼文 -->
-            <div class="d-flex | me-6">
+            <div class="d-flex | me-sm-6">
               <button
                 @click="cancelLike(post._id)"
-                class="d-flex flex-column align-items-center | me-9"
+                class="d-flex flex-column align-items-center | me-sm-9"
                 type="button"
               >
-                <i class="bi bi-hand-thumbs-up | fs-5 lh-1 mb-1"></i>
-                <span class="fw-bold fs-7 lh-14 text-dark">取消</span>
+                <i class="bi bi-hand-thumbs-up | fs-5 text-dark lh-1 mb-1"></i>
+                <span class="text-nowrap fw-bold fs-7 lh-14 text-dark">取消</span>
               </button>
               <router-link :to="`/posts/${post._id}`" class="d-flex flex-column
               align-items-center text-dark">
                 <i class="bi bi-arrow-right-circle | fs-5 lh-1 mb-1"></i>
-                <span class="fw-bold fs-7 lh-14">查看</span>
+                <span class="text-nowrap fw-bold fs-7 lh-14">查看</span>
               </router-link>
             </div>
           </div>

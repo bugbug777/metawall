@@ -148,7 +148,7 @@ export default {
           <input @change="uploadImage" class="d-none" type="file" name="image" id="image" />
         </label>
       </div>
-      <div class="w-60 | card-body | p-0 mx-auto">
+      <div class="w-75 w-md-60 | card-body | p-0 mx-auto">
         <div class="mb-4">
           <label for="name" class="form-label mb-1">暱稱</label>
           <input
@@ -202,7 +202,7 @@ export default {
 
     <!-- 重設密碼 -->
     <div class="tab-pane fade" id="password" role="tabpanel" aria-labelledby="password-tab">
-      <div class="w-60 | card-body | p-0 mx-auto">
+      <div class="w-75 w-md-60 | card-body | p-0 mx-auto">
         <div class="mb-4">
           <label for="newPassword" class="form-label mb-1">輸入新密碼</label>
           <input
