@@ -58,7 +58,7 @@ export default {
                 <label for="name" class="form-label d-none"></label>
                 <VField
                   name="name"
-                  rules="required|min:2|alpha_num"
+                  rules="required|min:2"
                   v-model="user.name"
                   class="form-control rounded-0 border-2 border-dark | font-noto | py-4 px-6 mb-1"
                   :class="{ 'is-invalid': errors.name }"
