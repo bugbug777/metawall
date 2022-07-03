@@ -51,7 +51,7 @@ export default {
               :src="user.avatar"
               alt="avatar"
             />
-            <span class="font-azeret fw-bold | border-bottom border-2 border-dark | px-1"
+            <span class="font-azeret fw-bold text-dark | border-bottom border-2 border-dark | px-1"
               >Member</span
             >
           </button>
