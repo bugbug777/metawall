@@ -8,7 +8,7 @@
       <div class="w-md-60">
         <router-view />
       </div>
-      <div class="w-md-35">
+      <div class="w-md-35" >
         <Sidebar />
       </div>
     </div>

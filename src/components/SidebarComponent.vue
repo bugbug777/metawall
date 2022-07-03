@@ -16,7 +16,8 @@ export default {
 </script>
 <template>
   <!-- 桌機、平板顯示 -->
-  <div class="d-none d-md-block | border border-2 border-dark | bg-white | px-6 py-8">
+  <div class="d-none d-md-block | sticky-top top-110 | border border-2 border-dark |
+  bg-white | px-6 py-8">
     <router-link
       to="/post"
       class="d-block btn btn-shadow btn-primary btn-hover-warning | border
