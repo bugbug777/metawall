@@ -36,12 +36,16 @@ export default {
 </script>
 
 <template>
-  <div class="vh-100 | container | d-flex justify-content-center align-items-center">
+  <div
+    class="container | position-absolute top-0 start-0 end-0 bottom-0 |
+    d-flex justify-content-center align-items-center | px-6 px-md-0"
+  >
     <div
-      class="mw-869 | card card-shadow-1 rounded-0 border-2 border-dark | bg-gray-1 | px-12 py-70"
+      class="mw-869 | card card-shadow-1 rounded-0 border-2 border-dark |
+      bg-gray-1 | px-3 px-md-6 px-lg-12 py-3 py-md-12 py-lg-70"
     >
-      <div class="row gx-12">
-        <div class="col-md-6">
+      <div class="row gx-md-12">
+        <div class="col-md-6 | d-none d-md-block">
           <img
             src="@/assets/images/img.svg"
             class="h-100 | img-fluid rounded-start"
@@ -51,7 +55,7 @@ export default {
         <div class="col-md-6">
           <div class="card-body | text-center | p-0">
             <h1 class="font-paytone fs-60 text-primary lh-14">MetaWall</h1>
-            <h5 class="card-title fs-4 lh-sm | mb-9">到元宇宙展開全新社交圈</h5>
+            <h5 class="card-title fs-md-4 lh-sm | mb-9">到元宇宙展開全新社交圈</h5>
             <VForm @submit="login" class="mb-4" v-slot="{ errors }">
               <div class="mb-4">
                 <label for="email" class="form-label d-none"></label>
@@ -60,7 +64,7 @@ export default {
                   rules="required|email"
                   v-model="user.email"
                   type="email"
-                  class="form-control rounded-0 border-2 border-dark | py-4 px-6"
+                  class="form-control rounded-0 border-2 border-dark | py-2 py-md-4 px-3 px-md-6"
                   id="email"
                   placeholder="Email"
                 />
@@ -72,7 +76,7 @@ export default {
                   rules="required|min:8|alpha_num"
                   v-model="user.password"
                   type="password"
-                  class="form-control rounded-0 border-2 border-dark | py-4 px-6"
+                  class="form-control rounded-0 border-2 border-dark | py-2 py-md-4 px-3 px-md-6"
                   id="password"
                   placeholder="Password"
                 />
@@ -85,8 +89,8 @@ export default {
               </p>
               <button
                 type="submit"
-                class="w-100 | btn btn-shadow btn-primary
-                btn-hover-warning | border rounded-8 border-2 border-dark text-white | py-4"
+                class="w-100 | btn btn-shadow btn-primary btn-hover-warning
+                | border rounded-8 border-2 border-dark text-white | py-2 py-md-4"
               >
                 登入
               </button>
