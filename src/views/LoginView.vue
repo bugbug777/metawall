@@ -41,18 +41,18 @@ export default {
     d-flex justify-content-center align-items-center | px-6 px-md-0"
   >
     <div
-      class="mw-869 | card card-shadow-1 rounded-0 border-2 border-dark |
+      class="w-md-492 w-lg-869 flex-shrink-0 | card card-shadow-1 rounded-0 border-2 border-dark |
       bg-gray-1 | px-3 px-md-6 px-lg-12 py-3 py-md-12 py-lg-70"
     >
       <div class="row gx-md-12">
-        <div class="col-md-6 | d-none d-md-block">
+        <div class="col-lg-6 | d-none d-lg-block">
           <img
             src="@/assets/images/img.svg"
             class="h-100 | img-fluid rounded-start"
             alt="MetaWall 插圖"
           />
         </div>
-        <div class="col-md-6">
+        <div class="col-lg-6">
           <div class="card-body | text-center | p-0">
             <h1 class="font-paytone fs-60 text-primary lh-14">MetaWall</h1>
             <h5 class="card-title fs-md-4 lh-sm | mb-9">到元宇宙展開全新社交圈</h5>
