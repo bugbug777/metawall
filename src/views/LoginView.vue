@@ -41,7 +41,8 @@ export default {
     d-flex justify-content-center align-items-center | px-6 px-md-0"
   >
     <div
-      class="w-md-492 w-lg-869 flex-shrink-0 | card card-shadow-1 rounded-0 border-2 border-dark |
+      class="w-100 w-md-492 w-lg-869 flex-shrink-0
+      card card-shadow-1 rounded-0 border-2 border-dark |
       bg-gray-1 | px-3 px-md-6 px-lg-12 py-3 py-md-12 py-lg-70"
     >
       <div class="row gx-md-12">
